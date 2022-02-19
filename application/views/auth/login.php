@@ -33,6 +33,9 @@
             <div class="col-lg-6" style=" margin: 50px auto auto auto;">
               <div class="card">
                 <div class="card-header">
+                  <div style="text-align: center;">
+                      <img width="25%" src="<?=$this->config->base_url()?>asset/img/GTM.png" >
+                  </div>
                   <h3 class="h4 mb-0">Login</h3>
                 </div>
                 <div class="card-body pt-0">
@@ -56,7 +59,7 @@
           </div>
         <!-- Page Footer-->
         <?php
-        $this->load->view('includes/footer');
+       // $this->load->view('includes/footer');
         ?>
       </div>
     </div>

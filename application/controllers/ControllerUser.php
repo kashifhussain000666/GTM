@@ -21,11 +21,12 @@ class ControllerUser extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('auth/login');
-		//$this->load->view('welcome_message');
+		
 	}
 
 	public function register()
 	{
-		$this->load->view('auth/register');
+		$this->load->view('welcome_message');
+		//$this->load->view('auth/register');
 	}
 }
