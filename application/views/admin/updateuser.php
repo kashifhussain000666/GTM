@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Dark Admin by Bootstrapious.com</title>
+    <title>GTM The League</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -17,16 +17,32 @@
     <link rel="stylesheet" href="<?=$this->config->base_url()?>asset/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico">
+    <!-- <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico"> -->
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <style type="text/css">
+      .spanError{
+        color: #ff0000;
+      }
+      .Errorborderclass{
+        border-color: #ff0000;
+      }
+    </style>
   </head>
   <body>
 
   <?php
     $txt_PlayerID = '' ;
     $txt_Email = '' ;
-
+    $txt_FirstName = '' ;
+    $txt_LastName = '' ;
+    $sel_paymentprovider = '' ;
+    $txt_PaymentPlatformUserName = '' ;
+    $sel_Country = '' ;
+    $sel_State = '' ;
+    $txt_City = '' ;
+    
     if(isset($_POST['btn_UpdateUser'])=="")
     {
       if(isset($userid) && $userid != '')
@@ -35,13 +51,28 @@
         {
           $txt_PlayerID         = $user_info['playerid'];
           $txt_Email            = $user_info['email'];
+          $txt_FirstName        = $user_info['firstname'];
+          $txt_LastName         = $user_info['lastname'];
+          $sel_paymentprovider         = $user_info['paymentproviderid'];
+          $txt_PaymentPlatformUserName         = $user_info['paymentusername'];
+          $sel_Country         = $user_info['country'];
+          $sel_State         = $user_info['state'];
+          $txt_City         = $user_info['city'];
         }
       }
     }
     else
     {
-      $txt_PlayerID         = $this->input->post('txt_PlayerID');
-      $txt_Email            = $this->input->post('txt_Email');
+      $txt_PlayerID                   = $this->input->post('txt_PlayerID');
+      $txt_Email                      = $this->input->post('txt_Email');
+      $txt_FirstName                  = $this->input->post('txt_FirstName');
+      $txt_LastName                   = $this->input->post('txt_LastName');
+      $sel_paymentprovider            = $this->input->post('sel_paymentprovider');
+      $txt_PaymentPlatformUserName            = $this->input->post('txt_PaymentPlatformUserName');
+      $sel_Country                    = $this->input->post('sel_Country');
+      $sel_State                      = $this->input->post('sel_State');
+      $txt_City                      = $this->input->post('txt_City');
+      
       
     }
     ?>
@@ -62,11 +93,11 @@
               <!-- Form Panel    -->
               <div class="col-lg-6 bg-white">
                 <div class="d-flex align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2" style="background:#0e1b3f !important ">
-                  <form class="register-form py-5 w-100" method="get" action="login.html">
+                  <form class="register-form py-5 w-100" action="" method="post" id="form_updateuser">
                     <div class="row">
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Golden Tee PlayerID</label>
-                        <input class="form-control" id="txt_PlayerID" name="txt_PlayerID" type="email"  placeholder="Email" value="<?=$txt_PlayerID ?>" disabled>
+                        <input class="form-control" id="txt_PlayerID" name="txt_PlayerID" type="email"  placeholder="PlayerID" value="<?=$txt_PlayerID ?>" disabled>
                         <span id="Error_PlayerID" class="spanError"></span>
                       </div>
                       <div class="col-sm-6">
@@ -78,74 +109,75 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">First Name</label>
-                        <input class="form-control" id="txt_usename" name="txt_usename" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_usename'); ?>">
-                        <span id="Error_usename" class="spanError"></span>
+                        <input class="form-control" id="txt_FirstName" name="txt_FirstName" type="text"  placeholder="First Name" value="<?=$txt_FirstName ?>">
+                        <span id="Error_FirstName" class="spanError"></span>
                       </div>
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Last Name</label>
-                        <input class="form-control" id="txt_usename" name="txt_usename" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_usename'); ?>">
-                        <span id="Error_usename" class="spanError"></span>
+                        <input class="form-control" id="txt_LastName" name="txt_LastName" type="text"  placeholder="First Name" value="<?=$txt_LastName ?>">
+                        <span id="Error_LastName" class="spanError"></span>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Preferred Payment Platform</label>
-                        <select class="form-select mb-3" name="account">
+                        <select class="form-select mb-3" name="sel_paymentprovider" id="sel_paymentprovider" >
                           <?php 
                           foreach($PaymentProviders as $PaymentProvider)
                           {
                           ?>
-                            <option value="<?=$PaymentProvider['id'] ?>" ><?php echo $PaymentProvider['name']; ?></option>
+
+                            <option value="<?=$PaymentProvider['id'] ?>" <?php if($sel_paymentprovider == $PaymentProvider['id']){ echo "selected" ;} ?>><?php echo $PaymentProvider['name']; ?></option>
                           <?php 
                           }
                           ?>
                           </select>
-                        <span id="Error_usename" class="spanError"></span>
+                        <span id="Error_paymentprovider" class="spanError"></span>
                       </div>
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Payment Platform UserName</label>
-                        <input class="form-control" id="txt_usename" name="txt_usename" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_usename'); ?>">
-                        <span id="Error_usename" class="spanError"></span>
+                        <input class="form-control" id="txt_PaymentPlatformUserName" name="txt_PaymentPlatformUserName" type="text"  placeholder="Email" value="<?=$txt_PaymentPlatformUserName ?>">
+                        <span id="Error_PaymentPlatformUserName" class="spanError"></span>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Country</label>
-                        <select class="form-select mb-3" name="account">
+                        <select class="form-select mb-3" name="sel_Country" id="sel_Country">
                           <?php 
                           foreach($Countries as $Country)
                           {
                           ?>
-                            <option value="<?=$Country['id'] ?>" ><?php echo $Country['name']; ?></option>
+                            <option value="<?=$Country['id'] ?>" <?php if($sel_Country == $Country['id']){ echo "selected" ;} ?>><?php echo $Country['name']; ?></option>
                           <?php 
                           }
                           ?>
                           </select>
-                        <span id="Error_usename" class="spanError"></span>
+                        <span id="Error_Country" class="spanError"></span>
                       </div>
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">State</label>
-                        <select class="form-select mb-3" name="account">
+                        <select class="form-select mb-3" name="sel_State" id="sel_State">
                           <?php 
                           foreach($States as $State)
                           {
                           ?>
-                            <option value="<?=$State['id'] ?>" ><?php echo $State['name']; ?></option>
+                            <option value="<?=$State['id'] ?>" <?php if($sel_State == $State['id']){ echo "selected" ;} ?>><?php echo $State['name']; ?></option>
                           <?php 
                           }
                           ?>
                           </select>
-                        <span id="Error_usename" class="spanError"></span>
+                        <span id="Error_State" class="spanError"></span>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-12">
                         <label class="form-label" for="exampleInputEmail1">City</label>
-                        <input class="form-control" id="txt_usename" name="txt_usename" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_usename'); ?>">
-                        <span id="Error_usename" class="spanError"></span>
+                        <input class="form-control" id="txt_City" name="txt_City" type="text"  placeholder="City" value="<?=$txt_City ?>">
+                        <span id="Error_City" class="spanError"></span>
                       </div>
                     </div>
-                    <button class="btn btn-primary" id="btn_UpdateUser" name="btn_UpdateUser">Sign In
+                    <button class="btn btn-primary" id="btn_UpdateUser" name="btn_UpdateUser">Update user
                       </button>
                   </form>
                 </div>
@@ -192,6 +224,57 @@
       injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
       
       
+    </script>
+
+    <script src="<?=$this->config->base_url()?>asset/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      
+      //function ValidateLogin()
+      $("#form_updateuser").click(function()
+    {
+        var txt_Email             = $("#txt_Email").val();
+        var txt_FirstName         = $("#txt_FirstName").val();
+        var txt_LastName          = $("#txt_LastName").val();
+        var sel_paymentprovider   = $("#sel_paymentprovider").val();
+        var txt_PaymentPlatformUserName        = $("#txt_PaymentPlatformUserName").val();
+        var sel_Country           = $("#sel_Country").val();
+        var sel_State             = $("#sel_State").val();
+        var txt_City              = $("#txt_City").val();
+
+        $(".spanError").html("");
+        $(".form-control").removeClass( "Errorborderclass" );
+
+        var validations ={
+          email: [/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/, 'Please enter a valid email address']
+            };
+        validation = new RegExp(validations['email'][0]);
+
+        if(txt_Email == "" )
+        {
+          $("#Error_Email").html("Invalid Email");
+          $("#txt_Email").addClass( "Errorborderclass" );
+          $("#txt_Email").focus();
+          return false;
+        }
+        if (!validation.test(txt_Email)){
+              $("#Error_Email").html("Invalid Email Format");
+              $("#txt_Email").addClass( "Errorborderclass" );
+              $("#txt_Email").focus();
+              return false;
+        }
+
+        if(txt_FirstName == '')
+        {
+          
+          $("#Error_FirstName").html("Please enter First Name");
+          $("#txt_FirstName").addClass( "Errorborderclass" );
+          $("#txt_FirstName").focus();
+          return false;
+        }
+       
+      });
     </script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">

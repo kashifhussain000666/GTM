@@ -150,6 +150,8 @@
       
       $("#Error_usename").html("Please enter email");
       $("#txt_usename").addClass( "Errorborderclass" );
+      $("#txt_usename").focus();
+      
       return false;
     }
     
@@ -158,6 +160,7 @@
       
       $("#Error_password").html("Please enter password");
       $("#txt_password").addClass( "Errorborderclass" );
+      $("#txt_password").focus();
       return false;
     }
    
