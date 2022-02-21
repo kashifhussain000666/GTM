@@ -16,7 +16,6 @@
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="<?=$this->config->base_url()?>asset/css/custom.css">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico">
     <!-- <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico"> -->
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -33,6 +32,11 @@
   <body>
 
   <?php
+  if(empty($user_infos)){
+   //user exists
+    die("Oops! Something went wrong please contact site administrator.");
+  }
+
     $txt_PlayerID = '' ;
     $txt_Email = '' ;
     $txt_FirstName = '' ;
@@ -43,7 +47,7 @@
     $sel_State = '' ;
     $txt_City = '' ;
     
-    if(isset($_POST['btn_UpdateUser'])=="")
+    if(isset($_POST['hdn_btn_UpdateUser'])=="")
     {
       if(isset($userid) && $userid != '')
       {
@@ -73,7 +77,6 @@
       $sel_State                      = $this->input->post('sel_State');
       $txt_City                      = $this->input->post('txt_City');
       
-      
     }
     ?>
 
@@ -81,6 +84,7 @@
       <div class="container d-flex align-items-center position-relative py-5">
         <div class="card shadow-sm w-100 rounded overflow-hidden bg-none">
           <div class="card-body p-0">
+
             <div class="row gx-0 align-items-stretch">
               <!-- Logo & Information Panel-->
               <div class="col-lg-6">
@@ -93,7 +97,39 @@
               <!-- Form Panel    -->
               <div class="col-lg-6 bg-white">
                 <div class="d-flex align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2" style="background:#0e1b3f !important ">
-                  <form class="register-form py-5 w-100" action="" method="post" id="form_updateuser">
+                  <form  action="" method="post" id="form_updateuser">
+                    <div class="row">
+                      <div class="login-div">
+                        <h2 class="color-white">Edit User</h2>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <?php 
+                        if($error != "")
+                        {
+                          ?>
+                            <div class="alert alert-danger">
+                            <strong>Error!</strong> <?=$error?>
+                            </div>
+                        <?php 
+                        }
+                        if($success != "")
+                        {
+                          ?>
+                            <div class="alert alert-success">
+                              <strong>Success!</strong> <?=$success?>
+                            </div>
+                          <?php
+                        }
+                        ?>
+                    </div>
+                    <?php 
+                    if(isset($userid) && $userid != '')
+                    { ?>
+                      <input type="hidden" name="Userid" value="<?=$userid ?>">
+                    <?php
+                    }
+                    ?>
                     <div class="row">
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Golden Tee PlayerID</label>
@@ -114,7 +150,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Last Name</label>
-                        <input class="form-control" id="txt_LastName" name="txt_LastName" type="text"  placeholder="First Name" value="<?=$txt_LastName ?>">
+                        <input class="form-control" id="txt_LastName" name="txt_LastName" type="text"  placeholder="Last Name" value="<?=$txt_LastName ?>">
                         <span id="Error_LastName" class="spanError"></span>
                       </div>
                     </div>
@@ -122,11 +158,11 @@
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Preferred Payment Platform</label>
                         <select class="form-select mb-3" name="sel_paymentprovider" id="sel_paymentprovider" >
+                          <option value="">Select</option>
                           <?php 
                           foreach($PaymentProviders as $PaymentProvider)
                           {
                           ?>
-
                             <option value="<?=$PaymentProvider['id'] ?>" <?php if($sel_paymentprovider == $PaymentProvider['id']){ echo "selected" ;} ?>><?php echo $PaymentProvider['name']; ?></option>
                           <?php 
                           }
@@ -136,7 +172,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Payment Platform UserName</label>
-                        <input class="form-control" id="txt_PaymentPlatformUserName" name="txt_PaymentPlatformUserName" type="text"  placeholder="Email" value="<?=$txt_PaymentPlatformUserName ?>">
+                        <input class="form-control" id="txt_PaymentPlatformUserName" name="txt_PaymentPlatformUserName" type="text"  placeholder="Payment Platform UserName" value="<?=$txt_PaymentPlatformUserName ?>">
                         <span id="Error_PaymentPlatformUserName" class="spanError"></span>
                       </div>
                     </div>
@@ -144,6 +180,7 @@
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Country</label>
                         <select class="form-select mb-3" name="sel_Country" id="sel_Country">
+                          <option value="">Select</option>
                           <?php 
                           foreach($Countries as $Country)
                           {
@@ -158,6 +195,7 @@
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">State</label>
                         <select class="form-select mb-3" name="sel_State" id="sel_State">
+                          <option value="">Select</option>
                           <?php 
                           foreach($States as $State)
                           {
@@ -177,6 +215,7 @@
                         <span id="Error_City" class="spanError"></span>
                       </div>
                     </div>
+                    <input type="hidden" name="hdn_btn_UpdateUser" value="hdn_btn_UpdateUser">
                     <button class="btn btn-primary" id="btn_UpdateUser" name="btn_UpdateUser">Update user
                       </button>
                   </form>
@@ -199,49 +238,21 @@
     <script src="<?=$this->config->base_url()?>asset/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
     <!-- Main File-->
     <script src="<?=$this->config->base_url()?>asset/js/front.js"></script>
-    <script>
-      // ------------------------------------------------------- //
-      //   Inject SVG Sprite - 
-      //   see more here 
-      //   https://css-tricks.com/ajaxing-svg-sprite/
-      // ------------------------------------------------------ //
-      function injectSvgSprite(path) {
-      
-          var ajax = new XMLHttpRequest();
-          ajax.open("GET", path, true);
-          ajax.send();
-          ajax.onload = function(e) {
-          var div = document.createElement("div");
-          div.className = 'd-none';
-          div.innerHTML = ajax.responseText;
-          document.body.insertBefore(div, document.body.childNodes[0]);
-          }
-      }
-      // this is set to BootstrapTemple website as you cannot 
-      // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
-      // while using file:// protocol
-      // pls don't forget to change to your domain :)
-      injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
-      
-      
-    </script>
 
     <script src="<?=$this->config->base_url()?>asset/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
+      var BaseUrlSite = '<?php echo base_url(); ?>';
+    </script>
+    <script type="text/javascript">
       
       //function ValidateLogin()
-      $("#form_updateuser").click(function()
+    $("#btn_UpdateUser").click(function()
     {
-        var txt_Email             = $("#txt_Email").val();
-        var txt_FirstName         = $("#txt_FirstName").val();
-        var txt_LastName          = $("#txt_LastName").val();
-        var sel_paymentprovider   = $("#sel_paymentprovider").val();
-        var txt_PaymentPlatformUserName        = $("#txt_PaymentPlatformUserName").val();
-        var sel_Country           = $("#sel_Country").val();
-        var sel_State             = $("#sel_State").val();
-        var txt_City              = $("#txt_City").val();
+      $("#form_updateuser").submit();
+      return false;
+        var txt_Email             = $.trim($("#txt_Email").val());
 
         $(".spanError").html("");
         $(".form-control").removeClass( "Errorborderclass" );
@@ -264,17 +275,113 @@
               $("#txt_Email").focus();
               return false;
         }
+      if( txt_Email != '')
+      {
+        $.ajax({
+          url:BaseUrlSite+'admin/IsEmailAlreadyExist',
+          data:{
+              txt_Email: txt_Email,
+              Isajaxcall : 1,
+              Userid : 
+              <?php 
+              if(isset($userid) && $userid != '')
+              { ?>
+              <?=$userid ?>
+              <?php
+              }
+              else
+              {
+                echo 0;
+              } ?>
+            },
+            type:'POST',
+            success:function(data)
+            {
+              if(data=='Already Exist')
+              {
+                $("#Error_Email").html("This email already exist");
+                $("#txt_Email").addClass( "Errorborderclass" );
+                $("#txt_Email").focus();
+                return false;
+              }
+              else
+              {
+                ValidateOnSuccessfunction();
 
-        if(txt_FirstName == '')
-        {
-          
-          $("#Error_FirstName").html("Please enter First Name");
-          $("#txt_FirstName").addClass( "Errorborderclass" );
-          $("#txt_FirstName").focus();
-          return false;
-        }
+              }
+              
+            } 
+        });
+      }
+      return false;
        
       });
+
+    function ValidateOnSuccessfunction()
+    {
+      var txt_FirstName         = $.trim($("#txt_FirstName").val());
+      var txt_LastName          = $.trim($("#txt_LastName").val());
+      var sel_paymentprovider   = $.trim($("#sel_paymentprovider").val());
+      var txt_PaymentPlatformUserName        = $.trim($("#txt_PaymentPlatformUserName").val());
+      var sel_Country           = $.trim($("#sel_Country").val());
+      var sel_State             = $.trim($("#sel_State").val());
+      var txt_City              = $.trim($("#txt_City").val());
+
+      if(txt_FirstName == "" )
+      {
+        $("#Error_FirstName").html("Please enter First Name");
+        $("#txt_FirstName").addClass( "Errorborderclass" );
+        $("#txt_FirstName").focus();
+        return false;
+      }
+      if(txt_LastName == "" )
+      {
+        $("#Error_LastName").html("Please enter Last Name");
+        $("#txt_LastName").addClass( "Errorborderclass" );
+        $("#txt_LastName").focus();
+        return false;
+      }
+      if(sel_paymentprovider == "" )
+      {
+        $("#Error_paymentprovider").html("Please enter Payment Provider");
+        $("#sel_paymentprovider").addClass( "Errorborderclass" );
+        $("#sel_paymentprovider").focus();
+        return false;
+      }
+      if(txt_PaymentPlatformUserName == "" )
+      {
+        $("#Error_PaymentPlatformUserName").html("Please enter Payment Provider");
+        $("#txt_PaymentPlatformUserName").addClass( "Errorborderclass" );
+        $("#txt_PaymentPlatformUserName").focus();
+        return false;
+      }
+      if(sel_Country == "" )
+      {
+        $("#Error_Country").html("Please select Country");
+        $("#sel_Country").addClass( "Errorborderclass" );
+        $("#sel_Country").focus();
+        return false;
+      }
+      if(sel_State == "" )
+      {
+        $("#Error_State").html("Please select State");
+        $("#sel_State").addClass( "Errorborderclass" );
+        $("#sel_State").focus();
+        return false;
+      }
+      if(txt_City == "" )
+      {
+        $("#Error_City").html("Please select City");
+        $("#txt_City").addClass( "Errorborderclass" );
+        $("#txt_City").focus();
+        return false;
+      }
+      else
+      {
+        $("#form_updateuser").submit();
+        
+      }
+    }
     </script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">

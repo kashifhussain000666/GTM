@@ -135,7 +135,9 @@ class admin extends CI_Controller {
   public function updateuser()
   {
 
-    $data[] = "";
+    $this->load->model('model_admin');
+    $data['error']="";
+    $data['success']="";
     if($this->session->userdata('admin_id') == '' || $this->session->userdata('admin_id') == 0){
       header('Location:'. base_url().'admin/login');
     }
@@ -147,12 +149,114 @@ class admin extends CI_Controller {
       header('Location:'. base_url().'admin/home');
     }
 
-    $this->load->model('model_admin');
+    if(isset($_POST['hdn_btn_UpdateUser'])=="")
+    {
+    }
+    else
+    {
+
+      $txt_Email                    = $this->input->post('txt_Email');
+      $txt_FirstName                = $this->input->post('txt_FirstName');
+      $txt_LastName                 = $this->input->post('txt_LastName');
+      $sel_paymentprovider          = $this->input->post('sel_paymentprovider');
+      $txt_PaymentPlatformUserName  = $this->input->post('txt_PaymentPlatformUserName');
+      $sel_Country                  = $this->input->post('sel_Country');
+      $sel_State                    = $this->input->post('sel_State');
+      $txt_City                     = $this->input->post('txt_City');
+
+      if($txt_Email == "")
+      {
+        $data['error'] = "Invalid Email";
+      }
+      elseif($txt_Email != "")
+      {
+        $user_id =  $this->IsEmailAlreadyExist(); // Validate if the user email already exist.
+        if($user_id == 0)
+        {}
+        else
+        {
+          $data['error'] = "This user name already exist. Try another one";
+        }
+      }
+      if($txt_FirstName == "")
+      {
+        $data['error'] = "Invalid First Name";
+      }
+      elseif($txt_LastName == "")
+      {
+        $data['error'] = "Invalid Last Name";
+      }
+      elseif($sel_paymentprovider == "")
+      {
+        $data['error'] = "Invalid Payment Provider";
+      }
+      elseif($txt_PaymentPlatformUserName == "")
+      {
+        $data['error'] = "Invalid Payment Platform User Name";
+      }
+      elseif($sel_Country == "")
+      {
+        $data['error'] = "Invalid Country";
+      }
+      elseif($sel_State == "")
+      {
+        $data['error'] = "Invalid State";
+      }
+      elseif($txt_City == "")
+      {
+        $data['error'] = "Invalid City";
+      }
+      else{}
+      
+      if($data['error'] == "")
+      {
+        $this->model_admin->AddEditUser(); //Call the model function to Add new user
+        header('Location:'. base_url().'admin/home');
+      }
+    }
+
     $data["user_infos"] = $this->model_admin->getUserdata($userid);
     $data["Countries"] = $this->model_admin->GetAllCountries();
     $data["States"] = $this->model_admin->GetAllStates();
     $data["PaymentProviders"] = $this->model_admin->GetAllPaymentProviders();
     $this->load->view('admin/updateuser',$data);
 
+  }
+
+  public function IsEmailAlreadyExist($Isajaxcall='')
+  {
+    
+    $this->load->model('model_admin');
+    $Isajaxcall               = $this->input->post('Isajaxcall');
+    $Userid               = $this->input->post('Userid');
+    $user_id= 0;
+    $user_infos = $this->model_admin->IsEmailAlreadyExist();  
+    foreach($user_infos as $user_info)
+    {
+      $user_id = $user_info['user_id'];
+    }
+    if($user_id != 0 && $user_id != '')
+    {
+      if($Isajaxcall == 1)
+      {
+        echo "Already Exist";
+      }
+      else
+      {
+        return $user_id;
+      }
+    }
+    else
+    {
+      if($Isajaxcall == 1)
+      {
+        echo "Already Not Exist";
+      }
+      else
+      {
+        return 0;
+      }
+      
+    }
   }
 }

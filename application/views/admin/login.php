@@ -163,12 +163,11 @@
       $("#txt_password").focus();
       return false;
     }
-   
     else
     {
-      
+      $("#form_login").submit();
     }
-    $("#form_login").submit();
+    
   });
 </script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
