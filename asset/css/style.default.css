@@ -12217,7 +12217,7 @@ nav#sidebar.shrinked .sidebar-header .title {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #ffff50 !important;
+  /*background: #ffff50 !important;*/
 }
 
 .login-page .container {

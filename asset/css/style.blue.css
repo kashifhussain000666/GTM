@@ -12210,7 +12210,7 @@ nav#sidebar.shrinked .sidebar-header .title {
   content: "";
   display: block;
   z-index: -1;
-  background: url(../img/bg.jpg);
+  /*background: url(../img/bg.jpg);*/
   background-size: cover;
   z-index: 1;
   position: absolute;

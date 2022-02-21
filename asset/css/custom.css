@@ -1,1 +1,20 @@
 /* your styles go here */
+.spanError{
+color: #ff0000;
+}
+.Errorborderclass{
+border-color: #ff0000;
+}
+
+.logo-div-back{
+	background: rgb(22 52 102) !important;
+}
+
+.login-div{
+	margin-top: 30px;
+    text-align: center;
+}
+
+.color-white{
+	color: #e6e6e6;
+}

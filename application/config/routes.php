@@ -52,5 +52,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'ControllerUser';
 $route['404_override'] = '';
 $route['user/login'] = 'ControllerUser/index';
-$route['user/register'] = 'ControllerUser/register';
+$route['user/signup'] = 'ControllerUser/signup';
 
