@@ -44,9 +44,8 @@
           </div>
         </div>
         <div class="container-fluid d-flex align-items-center justify-content-between py-1">
-          <div class="navbar-header d-flex align-items-center"><a class="navbar-brand text-uppercase text-reset" href="index.html">
-              <div class="brand-text brand-big"><strong class="text-primary">Dark</strong><strong>Admin</strong></div>
-              <div class="brand-text brand-sm"><strong class="text-primary">D</strong><strong>A</strong></div></a>
+          <div class="navbar-header d-flex align-items-center"><a class="navbar-brand text-uppercase text-reset" href="<?php echo base_url().'admin/Home'?>">
+              <img src="https://gtmtheleague.com/images/logo.png" style="width: 90px;"></a>
             <button class="sidebar-toggle">
                   <svg class="svg-icon svg-icon-sm svg-icon-heavy transform-none">
                     <use xlink:href="#arrow-left-1"> </use>
@@ -68,7 +67,7 @@
         <!-- Sidebar Header-->
         <div class="sidebar-header d-flex align-items-center p-4"><img class="avatar shadow-0 img-fluid rounded-circle" src="img/avatar-6.jpg" alt="...">
           <div class="ms-3 title">
-            <h1 class="h5 mb-1">Mark Stephen</h1>
+            <h1 class="h5 mb-1">Admin</h1>
             <p class="text-sm text-gray-700 mb-0 lh-1"></p>
           </div>
         </div><span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">Main</span>

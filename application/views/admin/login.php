@@ -16,7 +16,7 @@
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="<?=$this->config->base_url()?>asset/css/custom.css">
     <!-- Favicon-->
-    <!-- <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico"> -->
+    <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico">
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -31,107 +31,87 @@
   </head>
   <body>
   <!-- Heder here  -->
-  	
-    <div class="d-flex align-items-stretch">
-      <!-- Sidebar Navigation-->
-      
-      <div class="page-content">
-        
-            <!-- Page Header-->
-           <div class="container-fluid">
-            <div class="col-lg-6" style=" margin: 50px auto auto auto;">
-              <div class="card">
-                <?php 
-                if($error != "")
-                {
-                  ?>
-                  <div class="card-header">
-                    <div class="alert alert-danger">
-                    <strong>Error!</strong> <?=$error?>
-                    </div>
+    
+     <div class="login-page">
+      <div class="container d-flex align-items-center position-relative py-5">
+        <div class="card shadow-sm w-100 rounded overflow-hidden bg-none">
+          <div class="card-body p-0">
+            <div class="row gx-0 align-items-stretch">
+              <!-- Logo & Information Panel-->
+              <div class="col-lg-6">
+                <div class="info d-flex justify-content-center flex-column p-4 h-100 logo-div-back">
+                  <div class="">
+                    <img src="<?=$this->config->base_url()?>asset/img/GTM.png" class="img-fluid">
                   </div>
-                <?php 
-                }
-                if($success != "")
-                {
-                  ?>
-                  <div class="card-header">
-                    <div class="alert alert-success">
-                      <strong>Success!</strong> <?=$success?>
-                    </div>
-                  </div>
-                  <?php
-                }
-                ?>
-                <div class="card-header">
-                  <h3 class="h4 mb-0">Login</h3>
-
                 </div>
-                <div class="card-body pt-0">
-                  
+              </div>
+              <!-- Form Panel    -->
+              <div class="col-lg-6 colo">
+
+                <div class=" align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
+
                   <form action="" method="post" id="form_login">
-                    <div class="mb-3">
+                    <div class="login-div">
+                      <h2 class="color-white">Admin Login</h2>
+                    </div>
+                    <?php 
+                    if($error != "")
+                    {
+                      ?>
+                      <div class="card-header">
+                        <div class="alert alert-danger">
+                        <strong>Error!</strong> <?=$error?>
+                        </div>
+                      </div>
+                    <?php 
+                    }
+                    if($success != "")
+                    {
+                      ?>
+                      <div class="card-header">
+                        <div class="alert alert-success">
+                          <strong>Success!</strong> <?=$success?>
+                        </div>
+                      </div>
+                      <?php
+                    }
+                    ?>
+                    <!-- <div>Login</div> -->
+                    <div class="mb-3 mt-5">
                       <label class="form-label" for="exampleInputEmail1">Email address</label>
                       <input class="form-control" id="txt_usename" name="txt_usename" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_usename'); ?>">
                       <span id="Error_usename" class="spanError"></span>
-                      <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div>
+                     <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                       <label class="form-label" for="exampleInputPassword1">Password</label>
                       <input class="form-control" id="txt_password" name="txt_password" type="password" value="<?php echo $this->input->post('txt_password'); ?>">
                       <span id="Error_password" class="spanError"></span>
                     </div>
-
                     <button class="btn btn-primary" id="btn_loginUser" name="btn_loginUser">Sign In
                       </button>
-                    
                   </form>
                 </div>
               </div>
             </div>
           </div>
-        <!-- Page Footer-->
-        <?php
-        $this->load->view('includes/footer');
-        ?>
+        </div>
       </div>
+      <footer class="position-absolute bottom-0 bg-dash-dark-2 text-white text-center py-3 w-100 text-xs" id="footer">
+          <div class="container-fluid text-center">
+            <p class="mb-0 text-dash-gray">2021 &copy; GTM The League Season.</p>
+          </div>
+        </footer>
     </div>
     <!-- JavaScript files-->
-    <script src="<?=$this->config->base_url()?>asset/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="<?=$this->config->base_url()?>asset/vendor/just-validate/js/just-validate.min.js"></script>
-    <script src="<?=$this->config->base_url()?>asset/vendor/chart.js/Chart.min.js"></script>
-    <script src="<?=$this->config->base_url()?>asset/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script src="<?=$this->config->base_url()?>asset/js/charts-home.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/just-validate/js/just-validate.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="js/charts-home.js"></script>
     <!-- Main File-->
-    <script src="<?=$this->config->base_url()?>asset/js/front.js"></script>
-    <script>
-      // ------------------------------------------------------- //
-      //   Inject SVG Sprite - 
-      //   see more here 
-      //   https://css-tricks.com/ajaxing-svg-sprite/
-      // ------------------------------------------------------ //
-      function injectSvgSprite(path) {
-      
-          var ajax = new XMLHttpRequest();
-          ajax.open("GET", path, true);
-          ajax.send();
-          ajax.onload = function(e) {
-          var div = document.createElement("div");
-          div.className = 'd-none';
-          div.innerHTML = ajax.responseText;
-          document.body.insertBefore(div, document.body.childNodes[0]);
-          }
-      }
-      // this is set to BootstrapTemple website as you cannot 
-      // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
-      // while using file:// protocol
-      // pls don't forget to change to your domain :)
-      injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
-      
-      
-    </script>
-
-<script src="<?=$this->config->base_url()?>asset/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/front.js"></script>
+    <script src="<?=$this->config->base_url()?>asset/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
