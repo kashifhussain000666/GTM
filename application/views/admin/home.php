@@ -119,6 +119,7 @@
                             <th>country</th>
                             <th>city</th>
                             <th>discordid</th>
+                            <th>Amount Owed</th>
                             <th>Action</th>
                             <tr>
                           </tr>
@@ -157,6 +158,7 @@
                               <td><?=$user['countryname'] ?></td>
                               <td><?=$user['city'] ?></td>
                               <td><?=$user['discordid'] ?></td>
+                              <td><?=$user['amountowed'] ?></td>
                               <td><a href="<?php echo base_url().'admin/updateuser/'.$user['id'];?>" target="_blank">Update</a></td>
                             </tr>
                           <?php

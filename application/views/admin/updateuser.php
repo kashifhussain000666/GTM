@@ -46,6 +46,8 @@
     $sel_Country = '' ;
     $sel_State = '' ;
     $txt_City = '' ;
+    $txt_amountowed = '' ;
+    $hdn_eventdetailsid = '' ;
     
     if(isset($_POST['hdn_btn_UpdateUser'])=="")
     {
@@ -57,11 +59,14 @@
           $txt_Email            = $user_info['email'];
           $txt_FirstName        = $user_info['firstname'];
           $txt_LastName         = $user_info['lastname'];
-          $sel_paymentprovider         = $user_info['paymentproviderid'];
-          $txt_PaymentPlatformUserName         = $user_info['paymentusername'];
-          $sel_Country         = $user_info['country'];
-          $sel_State         = $user_info['state'];
-          $txt_City         = $user_info['city'];
+          $sel_paymentprovider          = $user_info['paymentproviderid'];
+          $txt_PaymentPlatformUserName  = $user_info['paymentusername'];
+          $sel_Country          = $user_info['country'];
+          $sel_State            = $user_info['state'];
+          $txt_City             = $user_info['city'];
+          $txt_amountowed       = $user_info['amountowed'];
+          $hdn_eventdetailsid   = $user_info['eventdetailsid'];
+          
         }
       }
     }
@@ -72,11 +77,12 @@
       $txt_FirstName                  = $this->input->post('txt_FirstName');
       $txt_LastName                   = $this->input->post('txt_LastName');
       $sel_paymentprovider            = $this->input->post('sel_paymentprovider');
-      $txt_PaymentPlatformUserName            = $this->input->post('txt_PaymentPlatformUserName');
+      $txt_PaymentPlatformUserName    = $this->input->post('txt_PaymentPlatformUserName');
       $sel_Country                    = $this->input->post('sel_Country');
       $sel_State                      = $this->input->post('sel_State');
-      $txt_City                      = $this->input->post('txt_City');
-      
+      $txt_City                       = $this->input->post('txt_City');
+      $txt_amountowed                 = $this->input->post('txt_amountowed');
+      $hdn_eventdetailsid             = $this->input->post('hdn_eventdetailsid');
     }
     ?>
 
@@ -215,6 +221,14 @@
                         <span id="Error_City" class="spanError"></span>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <label class="form-label" for="exampleInputEmail1">Amount Owed</label>
+                        <input class="form-control" id="txt_amountowed" name="txt_amountowed" type="number"  placeholder="Amount Owed" value="<?=$txt_amountowed ?>">
+                        <span id="Error_amountowed" class="spanError"></span>
+                      </div>
+                    </div>
+                    <input type="hidden" name="hdn_eventdetailsid" value="<?=$hdn_eventdetailsid ?>">
                     <input type="hidden" name="hdn_btn_UpdateUser" value="hdn_btn_UpdateUser">
                     <button class="btn btn-primary" id="btn_UpdateUser" name="btn_UpdateUser">Update user
                       </button>

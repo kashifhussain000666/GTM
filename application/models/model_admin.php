@@ -31,8 +31,8 @@ class model_admin extends CI_Model {
 	{
 		$WhereCondition = "";
 		$query  = $this->db->query(" 	
-									SELECT `id`,
-									`playerid`,
+									SELECT u.`id`,
+									u.`playerid`,
 									(
 									    SELECT p.nickname
 									    from player p
@@ -63,20 +63,24 @@ class model_admin extends CI_Model {
 									`city`,
 									`updated_at`,
 									`created_at`,
-									`discordid`
+									`discordid`,
+                                    (
+                                    	SELECT amountowed
+										FROM GTMTheLeague.eventroster as er 
+										join eventdetails as ed on ed.id = er.eventdetailsid 
+										WHERE er.playerid = u.playerid
+										AND ed.currentseason = 1
+                                    )amountowed,
+                                    (
+                                    	SELECT er.id
+										FROM GTMTheLeague.eventroster as er 
+										join eventdetails as ed on ed.id = er.eventdetailsid 
+										WHERE er.playerid = u.playerid
+										AND ed.currentseason = 1
+                                    )eventdetailsid
 									FROM user u
 									ORDER BY firstname ASC,lastname ASC
 									");
-		
-		// $query  = $this->db->query(" 	
-		// 								SELECT *
-		// 								FROM `tbl_users` tu 
-		// 								WHERE 1= 1 
-		// 								AND tu.user_type = 1
-		// 								AND tu.user_is_active = 1
-		// 								$WhereCondition
-		// 								ORDER BY user_fname , user_lname
-		// 							");
 		
 		$result = $query->result_array();			
 		return $result;
@@ -86,13 +90,12 @@ class model_admin extends CI_Model {
 	{
 		$WhereCondition = "";
 		$query  = $this->db->query(" 	
-									SELECT `id`,
-									`playerid`,
+									SELECT u.`id`,
+									u.`playerid`,
 									(
 									    SELECT p.nickname
 									    from player p
 									    Where p.id = u.playerid
-									     limit 1
 									) as nickname,
 									`firstname`,
 									`lastname`,
@@ -102,7 +105,6 @@ class model_admin extends CI_Model {
 									    SELECT pp.name
 									    from paymentprovider pp
 									    Where pp.id = u.paymentproviderid
-									     limit 1
 									) as payment,
 									`paymentusername`,
 									`state`,
@@ -110,33 +112,35 @@ class model_admin extends CI_Model {
 									    SELECT s.name
 									    from state s
 									    Where s.id = u.state
-									     limit 1
 									) as statename,
 									`country`,
 									(
 									    SELECT c.name
 									    from country c
 									    Where c.id = u.country
-									    limit 1
 									) as countryname,
 									`city`,
 									`updated_at`,
 									`created_at`,
-									`discordid`
+									`discordid`,
+                                    (
+                                    	SELECT amountowed
+										FROM GTMTheLeague.eventroster as er 
+										join eventdetails as ed on ed.id = er.eventdetailsid 
+										WHERE er.playerid = u.playerid
+										AND ed.currentseason = 1
+                                    )amountowed,
+                                    (
+                                    	SELECT er.id
+										FROM GTMTheLeague.eventroster as er 
+										join eventdetails as ed on ed.id = er.eventdetailsid 
+										WHERE er.playerid = u.playerid
+										AND ed.currentseason = 1
+                                    )eventdetailsid
 									FROM user u
 									WHERE u.id = $userid
 									ORDER BY firstname ASC,lastname ASC
 									");
-		
-		// $query  = $this->db->query(" 	
-		// 								SELECT *
-		// 								FROM `tbl_users` tu 
-		// 								WHERE 1= 1 
-		// 								AND tu.user_type = 1
-		// 								AND tu.user_is_active = 1
-		// 								$WhereCondition
-		// 								ORDER BY user_fname , user_lname
-		// 							");
 		
 		$result = $query->result_array();			
 		return $result;
@@ -146,6 +150,7 @@ class model_admin extends CI_Model {
 	  	$query  = $this->db->query(" 	
 	  								SELECT *
     								from country c
+    								ORDER BY name asc
 								");
 		
 		$result = $query->result_array();			
@@ -156,6 +161,7 @@ class model_admin extends CI_Model {
 	  	$query  = $this->db->query(" 	
 	  								SELECT *
     								from state s
+    								ORDER BY name asc
 								");
 		
 		$result = $query->result_array();			
@@ -203,7 +209,8 @@ class model_admin extends CI_Model {
       	$sel_Country                  = $this->input->post('sel_Country');
       	$sel_State                    = $this->input->post('sel_State');
      	$txt_City                     = $this->input->post('txt_City');
-
+     	$txt_amountowed               = $this->input->post('txt_amountowed');
+      	$hdn_eventdetailsid           = $this->input->post('hdn_eventdetailsid');
 	     // UPDATE CASE
 	    if( $Userid != '')
         {
@@ -220,6 +227,16 @@ class model_admin extends CI_Model {
 									`City` = '$txt_City'
 									WHERE id = $Userid
 								");
+        	if(trim($hdn_eventdetailsid)!= '' && trim($hdn_eventdetailsid)!= '')
+        	{
+        		$query = $this->db->query("
+									UPDATE eventroster
+									SET 
+									`amountowed` = '$txt_amountowed'
+									WHERE id = $hdn_eventdetailsid
+								");
+
+        	}
         }
         // else //ADD CASE
         // {
