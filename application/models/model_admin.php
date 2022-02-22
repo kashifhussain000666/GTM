@@ -92,6 +92,7 @@ class model_admin extends CI_Model {
 									    SELECT p.nickname
 									    from player p
 									    Where p.id = u.playerid
+									     limit 1
 									) as nickname,
 									`firstname`,
 									`lastname`,
@@ -101,6 +102,7 @@ class model_admin extends CI_Model {
 									    SELECT pp.name
 									    from paymentprovider pp
 									    Where pp.id = u.paymentproviderid
+									     limit 1
 									) as payment,
 									`paymentusername`,
 									`state`,
@@ -108,12 +110,14 @@ class model_admin extends CI_Model {
 									    SELECT s.name
 									    from state s
 									    Where s.id = u.state
+									     limit 1
 									) as statename,
 									`country`,
 									(
 									    SELECT c.name
 									    from country c
 									    Where c.id = u.country
+									    limit 1
 									) as countryname,
 									`city`,
 									`updated_at`,

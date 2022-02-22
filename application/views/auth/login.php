@@ -42,14 +42,23 @@
 
                 <div class=" align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
 
-                  <form class="login-form  w-100" method="get" action="index.html">
+                  <form class="login-form  w-100" method="post" action="<?=$this->config->base_url()?>user/login">
                     <div class="login-div">
                       <h2 class="color-white">Login to Account</h2>
                     </div>
+                    <?php if(trim($this->session->userdata('success_account') != ''))
+                    { ?>
+                    <div class="row alert alert-success mt-3"><?=$this->session->userdata('success_account') ?></div>
+                    <?php  $this->session->set_userdata('success_account', '');
+                    } ?>
+                    <?php if(trim($error) != ''){ ?>
+                    <div class="row alert alert-danger  mt-3"><?=$error?></div>
+                    <?php 
+                    } ?>
                     <!-- <div>Login</div> -->
                     <div class="mb-3 mt-5">
                       <label class="form-label" for="exampleInputEmail1">Email address</label>
-                      <input class="form-control" id="txt_usename" name="txt_usename" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_usename'); ?>">
+                      <input class="form-control" id="txt_usename" name="txt_email" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_usename'); ?>">
                       <span id="Error_usename" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                     </div>
@@ -58,7 +67,7 @@
                       <input class="form-control" id="txt_password" name="txt_password" type="password" value="<?php echo $this->input->post('txt_password'); ?>">
                       <span id="Error_password" class="spanError"></span>
                     </div>
-                    <button class="btn btn-primary mb-3" id="login" type="submit">Login</button>
+                    <button class="btn btn-primary mb-3" id="login" name="btn_login" type="submit">Login</button>
                     <br><small class="text-gray-500">Do not have an account? </small>
                     <a class="text-sm text-paleBlue" href="<?=$this->config->base_url()?>user/signup">Signup</a>
                   </form>

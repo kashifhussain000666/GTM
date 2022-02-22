@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head> 
@@ -23,28 +24,41 @@
   </head>
   <body>
   <!-- Heder here  -->
-    
-     <div class="login-page">
-      <div class="container d-flex align-items-center position-relative py-5">
-        <div class="card shadow-sm w-100 rounded overflow-hidden bg-none">
-          <div class="card-body p-0">
-            <div class="row gx-0 align-items-stretch">
-              <!-- Logo & Information Panel-->
-              <div class="col-lg-5">
-                <div class="info d-flex justify-content-center flex-column p-4 h-100 logo-div-back">
-                  <div class="">
-                    <img src="<?=$this->config->base_url()?>asset/img/GTM.png" class="img-fluid">
-                  </div>
-                </div>
+  	<?php
+  		foreach($user_data as $user_info)
+        {
+          $txt_PlayerID         = $user_info['playerid'];
+          $txt_Email            = $user_info['email'];
+          $txt_FirstName        = $user_info['firstname'];
+          $txt_LastName         = $user_info['lastname'];
+          $sel_paymentprovider  = $user_info['paymentproviderid'];
+          $txt_PaymentPlatformUserName  = $user_info['paymentusername'];
+          $sel_Country         = $user_info['country'];
+          $sel_State           = $user_info['state'];
+          $txt_City            = $user_info['city'];
+        }
+  		$this->load->view('includes/header');
+  	?>
+    <div class="d-flex align-items-stretch">
+      <!-- Sidebar Navigation-->
+      	<?php
+  		$this->load->view('includes/sidebar');
+  	    ?> 
+      <div class="page-content">
+            <!-- Page Header-->
+            <div class="bg-dash-dark-2 py-4">
+              <div class="container-fluid">
+                <h2 class="h5 mb-0">Update Account</h2>
               </div>
-              <!-- Form Panel    -->
-              <div class="col-lg-7 colo">
+            </div>
+             <!-- Form Panel    -->
+              <div class="col-lg-10 colo">
 
-                <div class=" align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
+                <div class=" align-items-center px-4 px-lg-5 h-100">
 
-                  <form class="login-form  w-100" method="post" action="<?=$this->config->base_url()?>user/signup">
+                  <form class="login-form  w-100" method="post" action="<?=$this->config->base_url()?>user/update">
                     <div class="login-div row">
-                      <h2 class="color-white">Your Account</h2>
+                    <!--   <h2 class="color-white">Your Account</h2> -->
                     </div>
                     <?php if(trim($error) != ''){ ?>
                     <div class="row alert alert-danger"><?=$error?></div>
@@ -54,26 +68,26 @@
                     <div class="row mt-3">
                       <div class="col-md-6 ">
                         <label class="form-label  mb-0" for="txt_playerid">Golden Tee PlayerID *</label>
-                        <input class="form-control" id="txt_playerid" name="txt_playerid" type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$this->input->post('txt_playerid')?>">
+                        <input class="form-control" id="txt_playerid" name="txt_playerid" disabled type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$txt_PlayerID?>">
                         <span id="Error_playerid" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                       </div>
                       <div class=" col-md-6 ">
                         <label class="form-label  mb-0" for="txt_Email">Email address *</label>
-                        <input class="form-control" id="txt_Email" name="txt_Email" type="email" value="<?=$this->input->post('txt_Email')?>">
+                        <input class="form-control" id="txt_Email" name="txt_Email" type="email" value="<?=$txt_Email?>">
                         <span id="Error_email" class="spanError"></span>
                       </div>
                     </div>
                     <div class="row ">
                       <div class="col-md-6  ">
                         <label class="form-label  mb-0" for="txt_fname">First Name *</label>
-                        <input class="form-control" id="txt_fname" name="txt_fname" type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$this->input->post('txt_fname')?>">
+                        <input class="form-control" id="txt_fname" name="txt_fname" type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$txt_FirstName?>">
                         <span id="Error_fusename" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                       </div>
                       <div class=" col-md-6 ">
                         <label class="form-label  mb-0" for="txt_lname">Last Name *</label>
-                        <input class="form-control" id="txt_lname" name="txt_lname" type="text" value="<?=$this->input->post('txt_lname')?>">
+                        <input class="form-control" id="txt_lname" name="txt_lname" type="text" value="<?=$txt_LastName?>">
                         <span id="Error_lname" class="spanError"></span>
                       </div>
                     </div>
@@ -86,7 +100,7 @@
                           foreach($PaymentProviders as $PaymentProvider)
                           {
                           ?>
-                            <option value="<?=$PaymentProvider['id'] ?>" <?php if($this->input->post('sel_payment_platform') == $PaymentProvider['id']){ echo "selected" ;} ?>><?php echo $PaymentProvider['name']; ?></option>
+                            <option value="<?=$PaymentProvider['id'] ?>" <?php if($sel_paymentprovider == $PaymentProvider['id']){ echo "selected" ;} ?>><?php echo $PaymentProvider['name']; ?></option>
                           <?php 
                           }
                           ?>
@@ -96,7 +110,7 @@
                       </div>
                       <div class=" col-md-6">
                         <label class="form-label  mb-0" for="txt_payment_username">Payment Platform Username *</label>
-                        <input class="form-control" id="txt_payment_username" name="txt_payment_username" type="text" value="<?=$this->input->post('txt_payment_username')?>">
+                        <input class="form-control" id="txt_payment_username" name="txt_payment_username" type="text" value="<?=$txt_PaymentPlatformUserName ?>">
                         <span id="Error_payment_username" class="spanError"></span>
                       </div>
                     </div>
@@ -109,7 +123,7 @@
                           foreach($Countries as $Country)
                           {
                           ?>
-                            <option value="<?=$Country['id'] ?>" <?php if($this->input->post('sel_country') == $Country['id']){ echo "selected" ;} ?>><?php echo $Country['name']; ?></option>
+                            <option value="<?=$Country['id'] ?>" <?php if($sel_Country  == $Country['id']){ echo "selected" ;} ?>><?php echo $Country['name']; ?></option>
                           <?php 
                           }?>
                         </select>
@@ -124,7 +138,7 @@
                           foreach($States as $State)
                           {
                           ?>
-                            <option value="<?=$State['id'] ?>" <?php if($this->input->post('sel_state') == $State['id']){ echo "selected" ;} ?>><?php echo $State['name']; ?></option>
+                            <option value="<?=$State['id'] ?>" <?php if($sel_State  == $State['id']){ echo "selected" ;} ?>><?php echo $State['name']; ?></option>
                           <?php 
                           }
                           ?>
@@ -135,19 +149,24 @@
                     <div class="row ">
                       <div class="col  ">
                         <label class="form-label  mb-0" for="txt_city">City</label>
-                        <input class="form-control" id="txt_city" name="txt_city" type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$this->input->post('txt_city')?>">
+                        <input class="form-control" id="txt_city" name="txt_city" type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$txt_City?>">
                         <span id="Error_city" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                       </div>
                     </div>
                     <div class="row ">
-                      <div class="col-md-6  ">
+                    	<div class="row mb-2">
+                    		<div class="col-md-12">
+                    			<input type="checkbox" name="is_change_password" id="is_change_password"> Change Password?
+                   			</div>
+                    	</div>
+                      <div class="col-md-6  password_filed">
                         <label class="form-label  mb-0" for="txt_password">Password *</label>
                         <input class="form-control" id="txt_password" name="txt_password" type="password" aria-describedby="emailHelp"  placeholder="" value="">
                         <span id="Error_password" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                       </div>
-                      <div class=" col-md-6 ">
+                      <div class=" col-md-6 password_filed">
                         <label class="form-label  mb-0" for="txt_cpassword">Confirm Password *</label>
                         <input class="form-control" id="txt_cpassword" name="txt_cpassword" type="password" value="">
                         <span id="Error_cpassword" class="spanError"></span>
@@ -156,29 +175,32 @@
                     
 
                     
-                    <button class="btn btn-primary mb-3" id="signup" name="signup" type="submit">Create Account</button>
+                    <button class="btn btn-primary mb-3" id="update" name="update" type="submit">Update Account</button>
                     </form>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="login-footer text-center position-absolute bottom-0 start-0 w-100">
-        <p class="text-white">Design by <a class="external" href="https://bootstrapious.com/p/admin-template">Bootstrapious</a>
-          <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-        </p>
+     
+        
+        
+        <!-- Page Footer-->
+        <?php $this->load->view('includes/footer'); ?>
       </div>
     </div>
     <!-- JavaScript files-->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/just-validate/js/just-validate.min.js"></script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script src="js/charts-home.js"></script>
-    <!-- Main File-->
-    <script src="js/front.js"></script>
+    
     <script>
+
+      $("#is_change_password").change(function(){
+
+      		if($("#is_change_password").is(":checked") == true)
+      		{
+      			$(".password_filed").show();
+      		}
+      		else
+      		{
+      			$(".password_filed").hide();
+      		}
+      });
       // ------------------------------------------------------- //
       //   Inject SVG Sprite - 
       //   see more here 

@@ -18,3 +18,7 @@ border-color: #ff0000;
 .color-white{
 	color: #e6e6e6;
 }
+
+.password_filed{
+	display: none;
+}
