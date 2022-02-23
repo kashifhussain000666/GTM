@@ -69,15 +69,17 @@ class model_user extends CI_Model {
 			}
 			else
 			{
+				if($isPlayerExist == 0)
+				{
+					$p_data['fullplayerid'] = $full_playerid;
+					$p_data['id'] 			= $playerid; 
+					$this->db->insert('player',$p_data);
+				}
+					
 				if($this->db->insert('user',$data))
 				{
 					
-					if($isPlayerExist == 0)
-					{
-						$p_data['fullplayerid'] = $full_playerid;
-						$p_data['id'] 			= $playerid; 
-						$this->db->insert('player',$p_data);
-					}
+					
 					
 					$retunr_val = true;
 				}

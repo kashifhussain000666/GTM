@@ -7,7 +7,7 @@
           </div>
         </div><span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">Main</span>
         <ul class="list-unstyled">
-              <li class="sidebar-item active"><a class="sidebar-link" href="<?=$this->config->base_url()?>user/home"> 
+              <li class="sidebar-item active"><a class="sidebar-link" href="<?=$this->config->base_url()?>home"> 
                       <svg class="svg-icon svg-icon-sm svg-icon-heavy">
                         <use xlink:href="#real-estate-1"> </use>
                       </svg><span>Home </span></a></li>
@@ -16,7 +16,7 @@
                         <use xlink:href="#browser-window-1"> </use>
                       </svg><span>Account </span></a>
                 <ul class="collapse list-unstyled " id="exampledropdownDropdown">
-                  <li><a class="sidebar-link" href="<?=$this->config->base_url()?>user/update">Update Account</a></li>
+                  <li><a class="sidebar-link" href="<?=$this->config->base_url()?>update">Update Account</a></li>
                  
                 </ul>
               </li>

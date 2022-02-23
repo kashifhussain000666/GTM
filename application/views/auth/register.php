@@ -3,7 +3,7 @@
   <head> 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Dark Admin by Bootstrapious.com</title>
+    <title>GTM The League</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -16,7 +16,7 @@
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="<?=$this->config->base_url()?>asset/css/custom.css">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico">
+    <!-- <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico"> -->
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -42,7 +42,7 @@
 
                 <div class=" align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
 
-                  <form class="login-form  w-100" method="post" action="<?=$this->config->base_url()?>user/signup">
+                  <form class="login-form  w-100" method="post" action="<?=$this->config->base_url()?>signup">
                     <div class="login-div row">
                       <h2 class="color-white">Your Account</h2>
                     </div>
@@ -54,7 +54,7 @@
                     <div class="row mt-3">
                       <div class="col-md-6 ">
                         <label class="form-label  mb-0" for="txt_playerid">Golden Tee PlayerID *</label>
-                        <input class="form-control" id="txt_playerid" name="txt_playerid" type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$this->input->post('txt_playerid')?>">
+                        <input class="form-control" id="txt_playerid" name="txt_playerid" type="text"  maxlength="10"  placeholder="PlayerID" value="<?=$this->input->post('txt_playerid')?>">
                         <span id="Error_playerid" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                       </div>
@@ -165,9 +165,7 @@
         </div>
       </div>
       <div class="login-footer text-center position-absolute bottom-0 start-0 w-100">
-        <p class="text-white">Design by <a class="external" href="https://bootstrapious.com/p/admin-template">Bootstrapious</a>
-          <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-        </p>
+        <p class="mb-0 text-dash-gray">2021 &copy; GTM The League Season.</p>
       </div>
     </div>
     <!-- JavaScript files-->
@@ -178,32 +176,6 @@
     <script src="js/charts-home.js"></script>
     <!-- Main File-->
     <script src="js/front.js"></script>
-    <script>
-      // ------------------------------------------------------- //
-      //   Inject SVG Sprite - 
-      //   see more here 
-      //   https://css-tricks.com/ajaxing-svg-sprite/
-      // ------------------------------------------------------ //
-      function injectSvgSprite(path) {
-      
-          var ajax = new XMLHttpRequest();
-          ajax.open("GET", path, true);
-          ajax.send();
-          ajax.onload = function(e) {
-          var div = document.createElement("div");
-          div.className = 'd-none';
-          div.innerHTML = ajax.responseText;
-          document.body.insertBefore(div, document.body.childNodes[0]);
-          }
-      }
-      // this is set to BootstrapTemple website as you cannot 
-      // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
-      // while using file:// protocol
-      // pls don't forget to change to your domain :)
-      injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
-      
-      
-    </script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </body>

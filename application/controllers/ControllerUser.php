@@ -15,19 +15,29 @@ class ControllerUser extends CI_Controller {
 	    $this->load->model('model_user');
     
     }
+    public function index()
+  	{
+	    if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
+	      header('Location:'. base_url().'login');
+	    }
+	    else
+	    {
+	    	header('Location:'. base_url().'home');
+	    }
+  	}
 	
 	public function home()
 	{
 		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
-	      header('Location:'. base_url().'user/login');
+	      header('Location:'. base_url().'login');
 	    }
-		$this->load->view('user/home');
+		$this->load->view('home');
 	}
 
 	public function login()
 	{
 		if($this->session->userdata('user_id') != '' || $this->session->userdata('user_id') != 0){
-         header('Location:'. base_url().'user/home');
+         header('Location:'. base_url().'home');
         }
 
 		$data['error'] = '';
@@ -57,7 +67,7 @@ class ControllerUser extends CI_Controller {
 					$this->session->set_userdata('lastname', $user[0]['lastname']);
 					$this->session->set_userdata('user_name', $user[0]['lastname'].' '.$user[0]['lastname']);
 					$this->session->set_userdata('email', $user[0]['email']);
-					header('Location:'. $this->config->base_url().'user/home');
+					header('Location:'. $this->config->base_url().'home');
 
 				}
 				else
@@ -107,13 +117,12 @@ class ControllerUser extends CI_Controller {
 					if($this->model_user->AddEditUser( $isPlayerExist,
 													   $isPlayerexistButNotInUser,
 													   $isPlayerExistInUser,
-													   $isPlayerExistInUser,
 													   $isPlayerExistInUserSameEmail,
 													   $isUpdate =0
 													))
 					{
 						$this->session->set_userdata('success_account', 'Acccount create successfully.');
-						header('Location:'. $this->config->base_url().'user/login');
+						header('Location:'. $this->config->base_url().'login');
 					}
 				}
 				
@@ -222,17 +231,20 @@ class ControllerUser extends CI_Controller {
 	public function UpdateUser()
 	{
 		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
-         header('Location:'. base_url().'user/login');
+         header('Location:'. base_url().'login');
         }
+        $data["userid"] = $this->session->userdata('user_id');
 		$data['error'] = '';
-		$data['Countries']			= $this->model_admin->GetAllCountries();
-		$data['States']				= $this->model_admin->GetAllStates();
-		$data['PaymentProviders']	= $this->model_admin->GetAllPaymentProviders();
-		$data['user_data']	        =  $this->model_admin->getUserdata($this->session->userdata('user_id'));
+		
 		
 		if(isset($_REQUEST['txt_Email']))
 		{
-			
+			$txt_email		= $this->input->post('txt_Email');
+			if(trim($txt_email) !='' &&  count($this->model_admin->IsEmailAlreadyExist($this->session->userdata('user_id'))) > 0)
+			{
+				$data['error'] = 'Email already exist.';
+			}
+
 			//$data['error']      = $this->ValidateUserReuqest($issignup='0');
 			//print_r($data['error']);// die();
 			if($data['error'] == '')
@@ -249,7 +261,7 @@ class ControllerUser extends CI_Controller {
 				{
 					$this->session->set_userdata('success_update', 'Acccount updated successfully.');
 					
-					//header('Location:'. $this->config->base_url().'user/update');
+					//header('Location:'. $this->config->base_url().'update');
 				}
 				else
 				{
@@ -258,14 +270,19 @@ class ControllerUser extends CI_Controller {
 	
 			}
 		}
-		$this->load->view('user/updateuser', $data);
+
+		$data['Countries']			= $this->model_admin->GetAllCountries();
+		$data['States']				= $this->model_admin->GetAllStates();
+		$data['PaymentProviders']	= $this->model_admin->GetAllPaymentProviders();
+		$data['user_data']	        =  $this->model_admin->getUserdata($this->session->userdata('user_id'));
+		$this->load->view('updateuser', $data);
 	}
 
 	public function Logout()
 	{
 		if(!$this->session->userdata('user_id'))
 		{
-       		header('Location:'. base_url().'user/login');
+       		header('Location:'. base_url().'login');
     	}
 	    $this->session->unset_userdata('user_id');
 	    $this->session->unset_userdata('playerid');
@@ -276,7 +293,7 @@ class ControllerUser extends CI_Controller {
 
 	    
 	    $this->session->sess_destroy();
-	    header('Location:'. base_url().'user/login');
+	    header('Location:'. base_url().'login');
 
     	
 

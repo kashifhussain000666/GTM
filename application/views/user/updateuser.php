@@ -56,7 +56,7 @@
 
                 <div class=" align-items-center px-4 px-lg-5 h-100">
 
-                  <form class="login-form  w-100" method="post" action="<?=$this->config->base_url()?>user/update">
+                  <form class="login-form  w-100" method="post" action="<?=$this->config->base_url()?>update">
                     <div class="login-div row">
                     <!--   <h2 class="color-white">Your Account</h2> -->
                     </div>
