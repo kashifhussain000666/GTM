@@ -58,7 +58,7 @@
                     <!-- <div>Login</div> -->
                     <div class="mb-3 mt-5">
                       <label class="form-label" for="exampleInputEmail1">Email address</label>
-                      <input class="form-control" id="txt_usename" name="txt_email" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_usename'); ?>">
+                      <input class="form-control" id="txt_usename" name="txt_email" type="email" aria-describedby="emailHelp"  placeholder="Email" value="<?php echo $this->input->post('txt_email'); ?>">
                       <span id="Error_usename" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                     </div>

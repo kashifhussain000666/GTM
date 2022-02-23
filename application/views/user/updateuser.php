@@ -60,6 +60,13 @@
                     <div class="login-div row">
                     <!--   <h2 class="color-white">Your Account</h2> -->
                     </div>
+                    <?php  //  echo $this->session->userdata('success_update');
+                     if(trim($this->session->userdata('success_update') != ''))
+                    { ?>
+                    <div class="row alert alert-success mt-3"><?=$this->session->userdata('success_update') ?></div>
+                    <?php  $this->session->set_userdata('success_update', '');
+                    } ?>
+                    
                     <?php if(trim($error) != ''){ ?>
                     <div class="row alert alert-danger"><?=$error?></div>
                     <?php 
@@ -68,7 +75,7 @@
                     <div class="row mt-3">
                       <div class="col-md-6 ">
                         <label class="form-label  mb-0" for="txt_playerid">Golden Tee PlayerID *</label>
-                        <input class="form-control" id="txt_playerid" name="txt_playerid" disabled type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$txt_PlayerID?>">
+                        <input class="form-control" maxlength='10' minlength='8' id="txt_playerid" name="txt_playerid" disabled type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$txt_PlayerID?>">
                         <span id="Error_playerid" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                       </div>
@@ -157,7 +164,7 @@
                     <div class="row ">
                     	<div class="row mb-2">
                     		<div class="col-md-12">
-                    			<input type="checkbox" name="is_change_password" id="is_change_password"> Change Password?
+                    			<input type="checkbox" name="is_change_password" id="is_change_password" value="1"> Change Password?
                    			</div>
                     	</div>
                       <div class="col-md-6  password_filed">
@@ -174,8 +181,8 @@
                     </div>
                     
 
+                    <button class="btn btn-primary mb-3" id="updateaccount" name="updateaccount" type="submit">Update Account</button>
                     
-                    <button class="btn btn-primary mb-3" id="update" name="update" type="submit">Update Account</button>
                     </form>
                 </div>
               </div>

@@ -55,5 +55,6 @@ $route['user/login'] = 'ControllerUser/login';
 $route['user/signup'] = 'ControllerUser/signup';
 $route['user/home'] = 'ControllerUser/home';
 $route['user/update'] = 'ControllerUser/UpdateUser';
+$route['user/logout'] = 'ControllerUser/Logout';
 
 

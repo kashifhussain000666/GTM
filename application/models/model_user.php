@@ -10,9 +10,17 @@ class model_user extends CI_Model {
 		  $this->load->database();
 	}
 
-	public function AddEditUser()
+	public function AddEditUser(
+								$isPlayerExist,
+							 	$isPlayerexistButNotInUser,
+							 	$isPlayerExistInUser,
+							 	$isPlayerExistInUserSameEmail,
+							 	$isUpdate ='0'
+							 )
 	{
-		$txt_playerid       = $this->input->post('txt_playerid');
+		$user_id = $this->session->userdata('user_id');
+		$full_playerid      = $this->input->post('txt_playerid');
+		$playerid 			= substr($full_playerid ,0, 8);
 		$txt_email 			= $this->input->post('txt_Email');
 		$txt_fname 			= $this->input->post('txt_fname');
 		$txt_lname 			= $this->input->post('txt_lname');
@@ -23,10 +31,15 @@ class model_user extends CI_Model {
 		$txt_city 			= $this->input->post('txt_city');
 		$txt_password 		= $this->input->post('txt_password');
 		$txt_cpassword 		= $this->input->post('txt_cpassword');
+		$is_change_password = $this->input->post('is_change_password');
+		    	
+		if($isUpdate == 0)	    
+		{
+			$data['id']         	=  $this->GetLastUserID() > 0 ? $this->GetLastUserID() + 1 : 1; // $a > 15 ? 20 : 5;
+		
+			$data['playerid']       = $playerid ;
+		}
 
-		$data['id']         	=  $this->GetLastUserID() > 0 ? $this->GetLastUserID() + 1 : 1; // $a > 15 ? 20 : 5;
-		    	    
-		$data['playerid']       = $txt_playerid ;
 		$data['firstname']      = $txt_fname ;
 		$data['lastname']       = $txt_lname;
 		$data['email']          = $txt_email;
@@ -36,15 +49,50 @@ class model_user extends CI_Model {
 		$data['state']         = $sel_state;
 		$data['country']       = $sel_country;
 		$data['city']          = $txt_city ;
-		$data['password']      = md5($txt_password);
-		if($this->db->insert('user',$data)){
 
-			return true;
+		if($isUpdate == 0 || ($isUpdate == 1 && $is_change_password == 1))	    
+		{
+			$data['password']      = md5($txt_password);
+		}
+		$retunr_val = false;
+		//die();
+
+		if($isUpdate == 0)
+		{
+			if($isPlayerExistInUserSameEmail > 0)
+			{
+				$this->db->where('email', $txt_email);
+				//$this->db->where('playerid', $txt_playerid);
+				$this->db->update('user', $data);
+				$retunr_val = true;
+
+			}
+			else
+			{
+				if($this->db->insert('user',$data))
+				{
+					
+					if($isPlayerExist == 0)
+					{
+						$p_data['fullplayerid'] = $full_playerid;
+						$p_data['id'] 			= $playerid; 
+						$this->db->insert('player',$p_data);
+					}
+					
+					$retunr_val = true;
+				}
+			}
 		}
 		else
 		{
-			return false;
+			$this->db->where('id', $user_id);
+			//$this->db->where('playerid', $txt_playerid);
+			$this->db->update('user', $data);
+			$retunr_val = true;
 		}
+		
+		return $retunr_val;
+		
 		
 	}
 
@@ -81,6 +129,7 @@ class model_user extends CI_Model {
     
     public function getPlayerIDFromUserAndPlayerTable($txt_playerid, $txt_email)
     {
+    	$txt_playerid = substr($txt_playerid ,0, 8);
     	$query = "
     				select 
 					(

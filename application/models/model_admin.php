@@ -37,6 +37,7 @@ class model_admin extends CI_Model {
 									    SELECT p.nickname
 									    from player p
 									    Where p.id = u.playerid
+									    limit 1
 									) as nickname,
 									`firstname`,
 									`lastname`,
@@ -46,6 +47,7 @@ class model_admin extends CI_Model {
 									    SELECT pp.name
 									    from paymentprovider pp
 									    Where pp.id = u.paymentproviderid
+									     limit 1
 									) as payment,
 									`paymentusername`,
 									`state`,
@@ -53,12 +55,14 @@ class model_admin extends CI_Model {
 									    SELECT s.name
 									    from state s
 									    Where s.id = u.state
+									     limit 1
 									) as statename,
 									`country`,
 									(
 									    SELECT c.name
 									    from country c
 									    Where c.id = u.country
+									     limit 1
 									) as countryname,
 									`city`,
 									`updated_at`,
@@ -70,6 +74,7 @@ class model_admin extends CI_Model {
 										join eventdetails as ed on ed.id = er.eventdetailsid 
 										WHERE er.playerid = u.playerid
 										AND ed.currentseason = 1
+										 limit 1
                                     )amountowed,
                                     (
                                     	SELECT er.id
@@ -77,6 +82,7 @@ class model_admin extends CI_Model {
 										join eventdetails as ed on ed.id = er.eventdetailsid 
 										WHERE er.playerid = u.playerid
 										AND ed.currentseason = 1
+										limit 1
                                     )eventdetailsid
 									FROM user u
 									ORDER BY firstname ASC,lastname ASC
@@ -96,6 +102,7 @@ class model_admin extends CI_Model {
 									    SELECT p.nickname
 									    from player p
 									    Where p.id = u.playerid
+									    limit 1
 									) as nickname,
 									`firstname`,
 									`lastname`,
@@ -105,6 +112,7 @@ class model_admin extends CI_Model {
 									    SELECT pp.name
 									    from paymentprovider pp
 									    Where pp.id = u.paymentproviderid
+									    limit 1
 									) as payment,
 									`paymentusername`,
 									`state`,
@@ -118,6 +126,7 @@ class model_admin extends CI_Model {
 									    SELECT c.name
 									    from country c
 									    Where c.id = u.country
+									    limit 1
 									) as countryname,
 									`city`,
 									`updated_at`,
@@ -129,6 +138,7 @@ class model_admin extends CI_Model {
 										join eventdetails as ed on ed.id = er.eventdetailsid 
 										WHERE er.playerid = u.playerid
 										AND ed.currentseason = 1
+										limit 1
                                     )amountowed,
                                     (
                                     	SELECT er.id
@@ -136,6 +146,7 @@ class model_admin extends CI_Model {
 										join eventdetails as ed on ed.id = er.eventdetailsid 
 										WHERE er.playerid = u.playerid
 										AND ed.currentseason = 1
+										limit 1
                                     )eventdetailsid
 									FROM user u
 									WHERE u.id = $userid
@@ -178,15 +189,20 @@ class model_admin extends CI_Model {
 		return $result;
 	}
 	//Function check if email already exist
-	public function IsEmailAlreadyExist()
+	public function IsEmailAlreadyExist($userid='')
 	{
 		$txt_Email		= $this->input->post('txt_Email');
 		$Userid        = $this->input->post('Userid');
 		$WhereCondition = "";
+		if($userid != '')
+		{
+			$Userid  = $userid;
+		}
 		if($Userid != '' && $Userid != 0)
 		{
 			$WhereCondition = " AND u.id != $Userid ";
 		}
+		
 	  	$query  = $this->db->query(" 	
   									SELECT u.id as user_id
   									FROM user u
