@@ -169,5 +169,65 @@ class model_user extends CI_Model {
 		
 		return $result;
     }
+
+    public function GetLeaderboardDetails()
+	{
+		$WhereCondition = "";
+		$query  = $this->db->query(" 	
+									SELECT 
+									rosterid,
+									playername,
+									division,
+									(
+									    SELECT dd.divisionname
+									    FROM divisiondetails dd
+									    WHERE dd.id = Leaderboard.Division
+									) as divisionname, 
+									avgpoints, 
+									wins, 
+									losses, 
+									gamesplayed, 
+									points, 
+									avgscore, 
+									opponentavgscore, 
+									gamesremaining, 
+									points + (gamesremaining * 3) AS potentialpoints 
+									FROM GTMTheLeague.Leaderboard
+									ORDER BY points DESC
+									");
+		
+		$result = $query->result_array();			
+		return $result;
+	}
+	public function GetLeagueScheduleDetails()
+	{
+		$WhereCondition = "";
+		$query  = $this->db->query(" 	
+									SELECT id,
+									Week, 
+									Division, 
+									 (
+									    SELECT dd.divisionname
+									    FROM divisiondetails dd
+									    WHERE dd.id = cseventscheduleview.Division
+									) as divisionname,
+									'' as playeridhome, 
+									'' as playeridaway, 
+									home, 
+									away, 
+									course, 
+									winner, 
+									contesttime, 
+									ParHme, 
+									GSPHme, 
+									ParAwy, 
+									GSPAwy, 
+									pointsadded 
+									FROM GTMTheLeague.cseventscheduleview;
+									");
+		
+		$result = $query->result_array();			
+		return $result;
+	}
 	
 }

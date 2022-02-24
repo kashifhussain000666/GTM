@@ -7,10 +7,18 @@
           </div>
         </div><span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">Main</span>
         <ul class="list-unstyled">
-              <li class="sidebar-item active"><a class="sidebar-link" href="<?=$this->config->base_url()?>home"> 
+              <li class="sidebar-item <?php if($this->uri->segment(1) == 'home'){ ?>active<?php }?>"><a class="sidebar-link" href="<?=$this->config->base_url()?>home"> 
                       <svg class="svg-icon svg-icon-sm svg-icon-heavy">
                         <use xlink:href="#real-estate-1"> </use>
                       </svg><span>Home </span></a></li>
+              <li class="sidebar-item <?php if($this->uri->segment(1) == 'Leaderboard'){ ?>active<?php }?>"><a class="sidebar-link" href="<?=$this->config->base_url()?>Leaderboard"> 
+                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
+                         <use xlink:href="#quality-1"> </use>
+                      </svg><span>Leaderboard </span></a></li>
+              <li class="sidebar-item <?php if($this->uri->segment(1) == 'LeagueSchedule'){ ?>active<?php }?>"><a class="sidebar-link" href="<?=$this->config->base_url()?>LeagueSchedule"> 
+                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
+                         <use xlink:href="#browser-window-1"> </use>
+                      </svg><span>League Schedule </span></a></li>
               <li class="sidebar-item"><a class="sidebar-link" href="#exampledropdownDropdown" data-bs-toggle="collapse"> 
                       <svg class="svg-icon svg-icon-sm svg-icon-heavy">
                         <use xlink:href="#browser-window-1"> </use>

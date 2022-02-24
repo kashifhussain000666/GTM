@@ -56,5 +56,9 @@ $route['signup'] = 'ControllerUser/signup';
 $route['home'] = 'ControllerUser/home';
 $route['update'] = 'ControllerUser/UpdateUser';
 $route['logout'] = 'ControllerUser/Logout';
+$route['Leaderboard'] = 'ControllerUser/Leaderboard';
+$route['LeagueSchedule'] = 'ControllerUser/LeagueSchedule';
+
+
 
 

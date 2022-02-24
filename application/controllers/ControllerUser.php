@@ -31,7 +31,7 @@ class ControllerUser extends CI_Controller {
 		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
 	      header('Location:'. base_url().'login');
 	    }
-		$this->load->view('home');
+		$this->load->view('user/home');
 	}
 
 	public function login()
@@ -275,7 +275,7 @@ class ControllerUser extends CI_Controller {
 		$data['States']				= $this->model_admin->GetAllStates();
 		$data['PaymentProviders']	= $this->model_admin->GetAllPaymentProviders();
 		$data['user_data']	        =  $this->model_admin->getUserdata($this->session->userdata('user_id'));
-		$this->load->view('updateuser', $data);
+		$this->load->view('user/updateuser', $data);
 	}
 
 	public function Logout()
@@ -294,9 +294,22 @@ class ControllerUser extends CI_Controller {
 	    
 	    $this->session->sess_destroy();
 	    header('Location:'. base_url().'login');
-
-    	
-
+	}
+	public function Leaderboard()
+	{
+		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
+	      header('Location:'. base_url().'login');
+	    }
+	    $data['Leaderboards']			= $this->model_user->GetLeaderboardDetails();
+		$this->load->view('user/Leaderboard', $data);
+	}
+	public function LeagueSchedule()
+	{
+		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
+	      header('Location:'. base_url().'login');
+	    }
+	    $data['LeagueSchedules']			= $this->model_user->GetLeagueScheduleDetails();
+		$this->load->view('user/LeagueSchedule', $data);
 	}
 
 }
