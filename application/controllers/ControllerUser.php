@@ -209,7 +209,7 @@ class ControllerUser extends CI_Controller {
 		}
 
 		$playerData = $this->model_user->getPlayerIDFromUserAndPlayerTable(trim($txt_playerid), trim($txt_email));
-		//print_r($playerData);
+		print_r($playerData);
 		$isPlayerExist 					= $playerData[0]['isPlayerExist'];
 		$isPlayerexistButNotInUser		= $playerData[0]['isPlayerexistButNotInUser'];
 		$isPlayerExistInUser 			= $playerData[0]['isPlayerExistInUser'];
@@ -240,10 +240,10 @@ class ControllerUser extends CI_Controller {
 		if(isset($_REQUEST['txt_Email']))
 		{
 			$txt_email		= $this->input->post('txt_Email');
-			if(trim($txt_email) !='' &&  count($this->model_admin->IsEmailAlreadyExist($this->session->userdata('user_id'))) > 0)
+			/*if(trim($txt_email) !='' &&  count($this->model_admin->IsEmailAlreadyExist($this->session->userdata('user_id'))) > 0)
 			{
 				$data['error'] = 'Email already exist.';
-			}
+			}*/
 
 			//$data['error']      = $this->ValidateUserReuqest($issignup='0');
 			//print_r($data['error']);// die();

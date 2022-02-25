@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="<?=$this->config->base_url()?>asset/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="<?=$this->config->base_url()?>asset/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="<?=$this->config->base_url()?>asset/css/DataTables/datatables.min.css"/>
+ 
+
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -33,32 +36,26 @@
   	    ?> 
       <div class="page-content">
             <!-- Page Header-->
+            
             <div class="bg-dash-dark-2 py-4">
               <div class="container-fluid">
                 <h2 class="h5 mb-0">Leader board</h2>
               </div>
             </div>
              <div class="container-fluid py-2">
-              <nav aria-label="breadcrumb">
+             <!--  <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 py-3 px-0">
                   <li class="breadcrumb-item"><a href="<?=$this->config->base_url()?>Leaderboard">Leader board</a></li>
                 </ol>
-              </nav>
+              </nav> -->
             </div>
-            <section class="tables py-0">
-          <div class="container-fluid">
-            <div class="row gy-4">
-              
-              <div class="col-lg-12">
-                <div class="card mb-0">
-                  <div class="card-header">
-                    <h3 class="h4 mb-0">Leader board</h3>
-                  </div>
-                  <div class="card-body pt-0">
-                    <div class="table-responsive">
-                      <table class="table mb-0 table-striped table-sm">
+            <section class=" py-0">
+              <div class="container-fluid">
+                <div class="row gy-4">
+                  
+                    <table id="TableData" class="table mb-0 table-striped table-responsive table-bordered">
                         <thead>
-                          <tr>
+                          <tr style="font-size: 12px;">
                             <th>#</th>
                             <th>rosterid</th>
                             <th>Name</th>
@@ -72,10 +69,9 @@
                             <th>Opponent GT per AVG</th>
                             <th>Games Remaining</th>
                             <th>Most Possible Points</th>
-                            <tr>
-                          </tr>
-                        </thead>
-                        <tbody>
+                        </tr>
+                      </thead>
+                      <tbody>
                           <?php
                           $RecordNo = 0;
                           foreach($Leaderboards as $Leaderboard)
@@ -99,15 +95,11 @@
                           <?php
                           }
                           ?>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                      </tbody>
+                    </table>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
         
         
         <!-- Page Footer-->
@@ -117,6 +109,9 @@
     <!-- JavaScript files-->
     
     <script>
+      $(document).ready( function () {
+          $('#TableData').DataTable();
+      } );
       // ------------------------------------------------------- //
       //   Inject SVG Sprite - 
       //   see more here 
@@ -142,6 +137,7 @@
       
       
     </script>
+    <script type="text/javascript" src="<?=$this->config->base_url()?>asset/js/DataTables/datatables.min.js"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </body>

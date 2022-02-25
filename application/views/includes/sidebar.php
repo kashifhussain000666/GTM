@@ -5,7 +5,7 @@
             <h1 class="h5 mb-1"><?=$this->session->userdata('user_name')?></h1>
             <!-- <p class="text-sm text-gray-700 mb-0 lh-1">Web Designer</p> -->
           </div>
-        </div><span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">Main</span>
+        </div><!-- <span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">Main</span> -->
         <ul class="list-unstyled">
               <li class="sidebar-item <?php if($this->uri->segment(1) == 'home'){ ?>active<?php }?>"><a class="sidebar-link" href="<?=$this->config->base_url()?>home"> 
                       <svg class="svg-icon svg-icon-sm svg-icon-heavy">
@@ -19,12 +19,12 @@
                       <svg class="svg-icon svg-icon-sm svg-icon-heavy">
                          <use xlink:href="#browser-window-1"> </use>
                       </svg><span>League Schedule </span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="#exampledropdownDropdown" data-bs-toggle="collapse"> 
+              <li class="sidebar-item "><a class="sidebar-link" href="#exampledropdownDropdown" data-bs-toggle="collapse"> 
                       <svg class="svg-icon svg-icon-sm svg-icon-heavy">
                         <use xlink:href="#browser-window-1"> </use>
                       </svg><span>Account </span></a>
-                <ul class="collapse list-unstyled " id="exampledropdownDropdown">
-                  <li><a class="sidebar-link" href="<?=$this->config->base_url()?>update">Update Account</a></li>
+                <ul class="collapse list-unstyled <?php if($this->uri->segment(1) == 'update'){ ?>collapse show<?php }?>" id="exampledropdownDropdown">
+                  <li class="sidebar-item <?php if($this->uri->segment(1) == 'update'){ ?>active<?php }?>"><a class="sidebar-link" href="<?=$this->config->base_url()?>update">Update Account</a></li>
                  
                 </ul>
               </li>

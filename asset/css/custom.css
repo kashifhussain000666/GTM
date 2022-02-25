@@ -22,3 +22,24 @@ border-color: #ff0000;
 .password_filed{
 	display: none;
 }
+
+#TableData_length, #TableData_info, #TableData_filter, #TableData_paginate{
+	color: #85888e;
+}
+
+#TableData_length select {
+	color: #85888e;
+}
+
+#TableData_filter input {
+	color: #85888e;
+}
+
+#TableData tr td{
+	color: #85888e !important;
+}
+
+#TableData_length{
+	margin-bottom: 20px;
+}
+
