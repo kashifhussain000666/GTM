@@ -51,7 +51,7 @@
             </div>
             <section class=" py-0">
               <div class="container-fluid">
-                <div class="row gy-4">
+                <div class="row table-responsive gy-4">
                   
                     <table id="TableData" class="table mb-0 table-striped table-responsive table-bordered">
                         <thead>
