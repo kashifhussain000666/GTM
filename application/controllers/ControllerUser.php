@@ -88,8 +88,11 @@ class ControllerUser extends CI_Controller {
 		$data['States']				= $this->model_admin->GetAllStates();
 		$data['PaymentProviders']	= $this->model_admin->GetAllPaymentProviders();
 		$data['error'] = '';
-		if(isset($_POST['signup']))
-		{
+		if(isset($_REQUEST['hdn_btn_signup'])=="")
+	    {
+	    }
+	    else
+	    {
 
 			$txt_playerid       = $this->input->post('txt_playerid');
 			$txt_email 			= $this->input->post('txt_Email');

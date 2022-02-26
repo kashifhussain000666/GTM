@@ -20,6 +20,14 @@
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <style type="text/css">
+      .spanError{
+        color: #ff0000;
+      }
+      .Errorborderclass{
+        border-color: #ff0000;
+      }
+    </style>
   </head>
   <body>
   <!-- Heder here  -->
@@ -42,7 +50,7 @@
 
                 <div class=" align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
 
-                  <form class="login-form  w-100" method="post" action="<?=$this->config->base_url()?>signup">
+                  <form method="post" action="" id="form_signup">
                     <div class="login-div row">
                       <h2 class="color-white">Your Account</h2>
                     </div>
@@ -67,7 +75,7 @@
                     <div class="row ">
                       <div class="col-md-6  ">
                         <label class="form-label  mb-0" for="txt_fname">First Name *</label>
-                        <input class="form-control" id="txt_fname" name="txt_fname" type="text" aria-describedby="emailHelp"  placeholder="" value="<?=$this->input->post('txt_fname')?>">
+                        <input class="form-control" id="txt_fname" name="txt_fname" type="text"  placeholder="" value="<?=$this->input->post('txt_fname')?>">
                         <span id="Error_fusename" class="spanError"></span>
                      <!--  <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div> -->
                       </div>
@@ -81,7 +89,7 @@
                       <div class="col-md-6  ">
                         <label class="form-label  mb-0" for="sel_payment_platform">Preffered Payment Platform *</label>
                         <select class="form-select" id="sel_payment_platform" name="sel_payment_platform" aria-label="Default select example">
-                          <option value="0">Select Payment Platform</option>
+                          <option value="">Select Payment Platform</option>
                            <?php 
                           foreach($PaymentProviders as $PaymentProvider)
                           {
@@ -104,7 +112,7 @@
                       <div class="col-md-6  ">
                         <label class="form-label  mb-0" for="sel_country">Conutry *</label>
                         <select class="form-select" id="sel_country" name="sel_country" aria-label="Default select example">
-                          <option value="0">Select Country</option>
+                          <option value="">Select Country</option>
                           <?php 
                           foreach($Countries as $Country)
                           {
@@ -119,7 +127,7 @@
                       <div class=" col-md-6 ">
                         <label class="form-label  mb-0" for="sel_state">State *</label>
                         <select class="form-select" id="sel_state" name="sel_state" aria-label="Default select example">
-                          <option value="0">Select State</option>
+                          <option value="">Select State</option>
                           <?php 
                           foreach($States as $State)
                           {
@@ -155,8 +163,9 @@
                     </div>
                     
 
-                    
-                    <button class="btn btn-primary mb-3" id="signup" name="signup" type="submit">Create Account</button>
+                    <input type="hidden" name="hdn_btn_signup" value="hdn_btn_signup">
+                    <button class="btn btn-primary" id="btn_signup" name="btn_signup">Create Account
+                      </button>
                     </form>
                 </div>
               </div>
@@ -169,13 +178,155 @@
       </div>
     </div>
     <!-- JavaScript files-->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/just-validate/js/just-validate.min.js"></script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script src="js/charts-home.js"></script>
+    <script src="<?=$this->config->base_url()?>asset/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?=$this->config->base_url()?>asset/vendor/just-validate/js/just-validate.min.js"></script>
+    <script src="<?=$this->config->base_url()?>asset/vendor/chart.js/Chart.min.js"></script>
+    <script src="<?=$this->config->base_url()?>asset/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+    <!-- <script src="<?=$this->config->base_url()?>asset/js/charts-home.js"></script> -->
     <!-- Main File-->
-    <script src="js/front.js"></script>
+    <script src="<?=$this->config->base_url()?>asset/js/front.js"></script>
+
+    <script src="<?=$this->config->base_url()?>asset/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      var BaseUrlSite = '<?php echo base_url(); ?>';
+    </script>
+    <script type="text/javascript">
+      
+      //function ValidateLogin()
+    $("#btn_signup").click(function()
+    {
+      
+      var PlayerID             = $.trim($("#txt_playerid").val());
+      var txt_Email            = $.trim($("#txt_Email").val());
+      var txt_fname            = $.trim($("#txt_fname").val());
+      var txt_lname            = $.trim($("#txt_lname").val());
+      var sel_payment_platform = $.trim($("#sel_payment_platform").val());
+      var txt_payment_username = $.trim($("#txt_payment_username").val());
+      var sel_country          = $.trim($("#sel_country").val());
+      var sel_state            = $.trim($("#sel_state").val());
+      var txt_city             = $.trim($("#txt_city").val());
+      var txt_password         = $.trim($("#txt_password").val());
+      var txt_cpassword        = $.trim($("#txt_cpassword").val());
+
+      $(".spanError").html("");
+      $(".form-control").removeClass( "Errorborderclass" );
+
+      if(PlayerID == "" )
+      {
+        $("#Error_playerid").html("Please enter PlayerID");
+        $("#PlayerID").addClass( "Errorborderclass" );
+        $("#PlayerID").focus();
+        return false;
+      }
+
+      var validations ={
+          email: [/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/, 'Please enter a valid email address']
+            };
+      validation = new RegExp(validations['email'][0]);
+
+      if(txt_Email == "" )
+      {
+        $("#Error_email").html("Please enter email");
+        $("#txt_Email").addClass( "Errorborderclass" );
+        $("#txt_Email").focus();
+        return false;
+      }
+      if (!validation.test(txt_Email)){
+            $("#Error_email").html("Invalid Email Format");
+            $("#txt_Email").addClass( "Errorborderclass" );
+            $("#txt_Email").focus();
+            return false;
+      }
+
+      if(txt_fname == "" )
+      {
+        $("#Error_fusename").html("Please enter First Name");
+        $("#txt_fname").addClass( "Errorborderclass" );
+        $("#txt_fname").focus();
+        return false;
+      }
+      if(txt_lname == "" )
+      {
+        $("#Error_lname").html("Please enter Last Name");
+        $("#txt_lname").addClass( "Errorborderclass" );
+        $("#txt_lname").focus();
+        return false;
+      }
+      if(sel_payment_platform == "" )
+      {
+        $("#Error_payment_platform").html("Please select Payment Platform");
+        $("#sel_payment_platform").addClass( "Errorborderclass" );
+        $("#sel_payment_platform").focus();
+        return false;
+      }
+      if(txt_payment_username == "" )
+      {
+        $("#Error_payment_username").html("Please enter Payment Username");
+        $("#txt_payment_username").addClass( "Errorborderclass" );
+        $("#txt_payment_username").focus();
+        return false;
+      }
+      if(sel_country == "" )
+      {
+        $("#Error_country").html("Please select Country");
+        $("#sel_country").addClass( "Errorborderclass" );
+        $("#sel_country").focus();
+        return false;
+      }
+      if(sel_state == "" )
+      {
+        $("#Error_state").html("Please select State");
+        $("#sel_state").addClass( "Errorborderclass" );
+        $("#sel_state").focus();
+        return false;
+      }
+      if(txt_city == "" )
+      {
+        $("#Error_city").html("Please enter City");
+        $("#txt_city").addClass( "Errorborderclass" );
+        $("#txt_city").focus();
+        return false;
+      }
+
+      if(txt_password == '')
+      {
+        $("#Error_password").html("Please enter password");
+        $("#txt_password").addClass( "Errorborderclass" );
+        $("#txt_password").focus();
+        return false;
+      }
+      if(txt_password.length < 8)
+      {
+        $("#Error_password").html("Pasword must be atleast 8 characters");
+        $("#txt_password").addClass( "Errorborderclass" );
+        $("#txt_password").focus();
+        return false;
+      }
+    if(txt_cpassword == '')
+    {
+      $("#Error_cpassword").html("Please retype password");
+      $("#txt_cpassword").addClass( "Errorborderclass" );
+      $("#txt_cpassword").focus();
+      return false;
+    }
+
+    if(txt_cpassword != txt_password)
+    {
+      $("#Error_cpassword").html("Password not match");
+      $("#txt_cpassword").addClass( "Errorborderclass" );
+      $("#txt_cpassword").focus();
+      return false;
+    }
+    else
+    {
+      $("#form_signup").submit();
+      
+    }
+    return false;
+    });
+    </script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </body>

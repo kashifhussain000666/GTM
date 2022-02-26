@@ -264,8 +264,6 @@
       //function ValidateLogin()
     $("#btn_UpdateUser").click(function()
     {
-      $("#form_updateuser").submit();
-      return false;
         var txt_Email             = $.trim($("#txt_Email").val());
 
         $(".spanError").html("");
