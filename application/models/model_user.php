@@ -229,5 +229,17 @@ class model_user extends CI_Model {
 		$result = $query->result_array();			
 		return $result;
 	}
+
+	public function getAllDivisions()
+	{
+		$query = "
+		     		select *
+		     		from divisiondetails d
+		     		where divisionname	 in ('Bronze', 'Gold', 'Noonan', 'Purple', 'Silver', 'Spackler', 'Webb')
+				";
+		$result = $this->db->query($query)->result_array();			
+		return $result;
+
+	}
 	
 }

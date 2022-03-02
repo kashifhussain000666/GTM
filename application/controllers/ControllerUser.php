@@ -300,6 +300,8 @@ class ControllerUser extends CI_Controller {
 		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
 	      header('Location:'. base_url().'login');
 	    }
+
+	    $data['divisionlist']           = $this->model_user->getAllDivisions();
 	    $data['Leaderboards']			= $this->model_user->GetLeaderboardDetails();
 		$this->load->view('user/Leaderboard', $data);
 	}

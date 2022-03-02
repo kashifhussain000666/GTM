@@ -100,6 +100,83 @@
                 </div>
               </div>
             </section>
+            <section class=" pt-2">
+              <div class="row">
+                <div class="col-md-12"><hr>
+                </div>
+              </div>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h3>Recent Division Results</h3>
+                  </div>
+                </div>
+                <div class="row">
+                <div class="col-md-12">
+                  <b>Filters: </b>
+                  <?php
+                  foreach($divisionlist as $division)
+                  {
+                  ?>
+                  <div class="form-check d-inline-block m-2">
+                   
+                      <input class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                      <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
+                    
+                  </div>
+                  <?php 
+                  } ?>
+                </div>
+              </div>
+                <div class="row table-responsive gy-4 DivisionDataTableBorder">
+                  
+                    <table id="TableDataDivision" class="table mb-0 table-striped table-responsive table-bordered">
+                        <thead>
+                          <tr style="font-size: 12px;">
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Division</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>Course</th>
+                            <th>Winner</th>
+                            <th>ID</th>
+                            <th>ParHme</th>
+                            <th>GSPHme</th>
+                            <th>ParAwy</th>
+                            <th>GSPAwy</th>
+                            <th>pointsadd</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <?php
+                          $RecordNo = 0;
+                          foreach($Leaderboards as $Leaderboard)
+                          {
+                            $RecordNo++;
+                          ?>
+                              <th scope="row"><?=$RecordNo ?></th>
+                              <td><?=$Leaderboard['rosterid'] ?></td>
+                              <td><?=$Leaderboard['playername'] ?></td>
+                              <td><?=$Leaderboard['divisionname'] ?></td>
+                              <td><?=$Leaderboard['avgpoints'] ?></td>
+                              <td><?=$Leaderboard['wins'] ?></td>
+                              <td><?=$Leaderboard['losses'] ?></td>
+                              <td><?=$Leaderboard['gamesplayed'] ?></td>
+                              <td><?=$Leaderboard['points'] ?></td>
+                              <td><?=$Leaderboard['avgscore'] ?></td>
+                              <td><?=$Leaderboard['opponentavgscore'] ?></td>
+                              <td><?=$Leaderboard['gamesremaining'] ?></td>
+                              <td><?=$Leaderboard['potentialpoints'] ?></td>
+                            </tr>
+                          <?php
+                          }
+                          ?>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </section>
         
         
         <!-- Page Footer-->
@@ -109,9 +186,15 @@
     <!-- JavaScript files-->
     
     <script>
+      
       $(document).ready( function () {
           $('#TableData').DataTable();
       } );
+
+       $(document).ready( function () {
+          $('#TableDataDivision').DataTable();
+      } );
+
       // ------------------------------------------------------- //
       //   Inject SVG Sprite - 
       //   see more here 
