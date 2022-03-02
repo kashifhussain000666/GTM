@@ -28,6 +28,7 @@
   <!-- Heder here  -->
   	<?php
   		$this->load->view('includes/header');
+      $controllObj =& get_instance();
   	?>
     <div class="d-flex align-items-stretch">
       <!-- Sidebar Navigation-->
@@ -120,7 +121,7 @@
                   ?>
                   <div class="form-check d-inline-block m-2">
                    
-                      <input class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                      <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
                       <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
                     
                   </div>
@@ -128,7 +129,7 @@
                   } ?>
                 </div>
               </div>
-                <div class="row table-responsive gy-4 DivisionDataTableBorder">
+                <div class="row table-responsive gy-4 DivisionDataTableBorder" >
                   
                     <table id="TableDataDivision" class="table mb-0 table-striped table-responsive table-bordered">
                         <thead>
@@ -150,27 +151,28 @@
                       </thead>
                       <tbody>
                           <?php
-                          $RecordNo = 0;
-                          foreach($Leaderboards as $Leaderboard)
+                          echo $controllObj->GetRecentDivisionResultGrid($RecentDivisionResults, $isAjax='0');
+                         /* $RecordNo = 0;
+                          foreach($RecentDivisionResults as $DivisionRes)
                           {
                             $RecordNo++;
                           ?>
                               <th scope="row"><?=$RecordNo ?></th>
-                              <td><?=$Leaderboard['rosterid'] ?></td>
-                              <td><?=$Leaderboard['playername'] ?></td>
-                              <td><?=$Leaderboard['divisionname'] ?></td>
-                              <td><?=$Leaderboard['avgpoints'] ?></td>
-                              <td><?=$Leaderboard['wins'] ?></td>
-                              <td><?=$Leaderboard['losses'] ?></td>
-                              <td><?=$Leaderboard['gamesplayed'] ?></td>
-                              <td><?=$Leaderboard['points'] ?></td>
-                              <td><?=$Leaderboard['avgscore'] ?></td>
-                              <td><?=$Leaderboard['opponentavgscore'] ?></td>
-                              <td><?=$Leaderboard['gamesremaining'] ?></td>
-                              <td><?=$Leaderboard['potentialpoints'] ?></td>
+                              <td><?=$DivisionRes['contesttime'] ?></td>
+                              <td><?=$DivisionRes['divisionname'] ?></td>
+                              <td><?=$DivisionRes['home'] ?></td>
+                              <td><?=$DivisionRes['away'] ?></td>
+                              <td><?=$DivisionRes['course'] ?></td>
+                              <td><?=$DivisionRes['winner'] ?></td>
+                              <td><?=$DivisionRes['id'] ?></td>
+                              <td><?=$DivisionRes['ParHme'] ?></td>
+                              <td><?=$DivisionRes['GSPHme'] ?></td>
+                              <td><?=$DivisionRes['ParAwy'] ?></td>
+                              <td><?=$DivisionRes['GSPAwy'] ?></td>
+                              <td><?=$DivisionRes['pointsadded'] ?></td>
                             </tr>
                           <?php
-                          }
+                          }*/
                           ?>
                       </tbody>
                     </table>
@@ -218,7 +220,33 @@
       // pls don't forget to change to your domain :)
       injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
       
-      
+      function GetDevisionResult(obj)
+      {
+        
+        BaseUrl = '<?=$this->config->base_url()?>';
+        //console.log(BaseUrl+'ControlerUser/GetDivisionRecentResultAjax');
+        divisionID = $(obj).attr("divisionID");
+        var checkedVals = $('.devision_chk_box:checkbox:checked').map(function() {
+              return this.value;
+          }).get();
+        divisionID = checkedVals.join(",");
+        $.ajax({
+          url: BaseUrl+'ControllerUser/GetDivisionRecentResultAjax',
+          type: 'post',
+          data :{
+            divisionID : divisionID
+          },
+          success:function(response){
+            if($.trim(response) !='')
+            {
+              $("#TableDataDivision > tbody").html("");
+              $("#TableDataDivision > tbody").append(response);
+              $('#TableDataDivision').DataTable();
+            }
+          }
+        });
+        
+      }
     </script>
     <script type="text/javascript" src="<?=$this->config->base_url()?>asset/js/DataTables/datatables.min.js"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->

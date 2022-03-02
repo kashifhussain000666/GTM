@@ -199,9 +199,9 @@ class model_user extends CI_Model {
 		$result = $query->result_array();			
 		return $result;
 	}
-	public function GetLeagueScheduleDetails()
+	public function GetLeagueScheduleDetails($WhereCondition = "")
 	{
-		$WhereCondition = "";
+		
 		$query  = $this->db->query(" 	
 									SELECT id,
 									Week, 
@@ -223,10 +223,13 @@ class model_user extends CI_Model {
 									ParAwy, 
 									GSPAwy, 
 									pointsadded 
-									FROM GTMTheLeague.cseventscheduleview;
+									FROM GTMTheLeague.cseventscheduleview
+									where 1=1 
+									$WhereCondition;
 									");
 		
-		$result = $query->result_array();			
+		$result = $query->result_array();
+				
 		return $result;
 	}
 

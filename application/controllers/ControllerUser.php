@@ -306,6 +306,7 @@ class ControllerUser extends CI_Controller {
 
 	    $data['divisionlist']           = $this->model_user->getAllDivisions();
 	    $data['Leaderboards']			= $this->model_user->GetLeaderboardDetails();
+	    $data['RecentDivisionResults'] 	= $this->model_user->GetLeagueScheduleDetails();
 		$this->load->view('user/Leaderboard', $data);
 	}
 	public function LeagueSchedule()
@@ -317,4 +318,56 @@ class ControllerUser extends CI_Controller {
 		$this->load->view('user/LeagueSchedule', $data);
 	}
 
+	public function GetDivisionRecentResultAjax()
+	{
+		$divisionID = $this->input->post('divisionID');	
+		$WhereCondition = '';
+		if(trim($divisionID) != '')
+		{
+			$WhereCondition = ' AND Division in ( '.$divisionID.')';
+		}
+		$data['RecentDivisionResults'] 	= $this->model_user->GetLeagueScheduleDetails($WhereCondition );
+		echo $result = $this->GetRecentDivisionResultGrid($data['RecentDivisionResults'] , $isAjax = '1');
+		
+	}
+
+
+	public function GetRecentDivisionResultGrid($DivisionResult, $isAjax = '0')
+	{
+
+		ob_start();
+			$RecordNo = 0;
+		    foreach($DivisionResult as $DivisionRes)
+		    {
+		       $RecordNo++;
+		      ?>
+		      	<tr>
+		          <th scope="row"><?=$RecordNo ?></th>
+		          <td><?=$DivisionRes['contesttime'] ?></td>
+		          <td><?=$DivisionRes['divisionname'] ?></td>
+		          <td><?=$DivisionRes['home'] ?></td>
+		          <td><?=$DivisionRes['away'] ?></td>
+		          <td><?=$DivisionRes['course'] ?></td>
+		          <td><?=$DivisionRes['winner'] ?></td>
+		          <td><?=$DivisionRes['id'] ?></td>
+		          <td><?=$DivisionRes['ParHme'] ?></td>
+		          <td><?=$DivisionRes['GSPHme'] ?></td>
+		          <td><?=$DivisionRes['ParAwy'] ?></td>
+		          <td><?=$DivisionRes['GSPAwy'] ?></td>
+		          <td><?=$DivisionRes['pointsadded'] ?></td>
+		        </tr>
+		      <?php
+		    }
+		    if($RecordNo == 0)
+		    {
+		    	?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php 
+		    }
+		$output = ob_get_clean();  
+
+		
+		return $output;
+	   
+
+	   
+	}
 }
