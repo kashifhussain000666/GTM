@@ -21,11 +21,14 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?=$this->config->base_url()?>asset/css/DataTables/datatables.min.css"/>
+ 
   </head>
   <body>
   <!-- Heder here  -->
   	<?php
   		$this->load->view('includes/header');
+      $controllObj =& get_instance();
   	?>
     <div class="d-flex align-items-stretch">
       <!-- Sidebar Navigation-->
@@ -44,6 +47,117 @@
           <div id="barChart" style="width:35%;display: inline-block;"></div>
           <div id="pieChart" style="width:25%;display: inline-block;"></div>
         </div>
+        <section class=" pt-2 ">
+              <div class="row table-responsive">
+                <div class="col-md-12"><hr>
+                </div>
+              </div>
+              <div class="container-fluid pl-1 pr-1">
+                <div class="row ">
+                  <div class="col-lg-12">
+                    <h3>Best 5 Matches</h3>
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col-md-12">
+                    <!-- <b>Filters: </b>
+                    <?php
+                    foreach($divisionlist as $division)
+                    {
+                    ?>
+                    <div class="form-check d-inline-block m-2">
+                     
+                        <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                        <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
+                      
+                    </div>
+                    <?php 
+                    } ?> -->
+                  </div>
+                </div>
+                <div class="row DivisionDataTableBorder" style="padding-top: 11px;" >
+                  <div class="col-md-12">
+                    <table id="TableDataBestMatches" class="table mb-0 table-striped table-responsive table-bordered">
+                        <thead>
+                          <tr style="font-size: 12px;">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Opponent</th>
+                            <th>Cours</th>
+                            <th>F9 GTPar</th>
+                            <th>B9 GTPar</th>
+                            <th>GSP</th>
+                            <th>Holeouts</th>
+                            
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <?php
+                          echo $controllObj->Get5BestMatchesGrid($Get5BestMatches, $isAjax='0');
+                        
+                          ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+                    <section class=" pt-2 ">
+              <div class="row table-responsive">
+                <div class="col-md-12"><hr>
+                </div>
+              </div>
+              <div class="container-fluid pl-1 pr-1">
+                <div class="row ">
+                  <div class="col-lg-12">
+                    <h3>Best 5 Matches Average</h3>
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col-md-12">
+                   <!--  <b>Filters: </b> -->
+                   <!--  <?php
+                    foreach($divisionlist as $division)
+                    {
+                    ?>
+                    <div class="form-check d-inline-block m-2">
+                     
+                        <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                        <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
+                      
+                    </div>
+                    <?php 
+                    } ?> -->
+                  </div>
+                </div>
+                <div class="row DivisionDataTableBorder" style="padding-top: 11px;" >
+                  <div class="col-md-12">
+                    <table id="TableDataBestMatchesAverage" class="table mb-0 table-striped table-responsive table-bordered">
+                        <thead>
+                          <tr style="font-size: 12px;">
+                            <th>#</th>
+                            <th>Event Name</th>
+                            <th>18 GT Par</th>
+                            <th>18 GSP</th>
+                            <th>18 Holeouts</th>
+                            <th>backgtpar</th>
+                            <th>frontgtpar</th>
+                            <th>Differential</th>
+                            
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <?php
+                          echo $controllObj->Get5BestMatchesAverageGrid($Get5BestMatchesAverage, $isAjax='0');
+                        
+                          ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
 
         <script>
         // Bar Chart start here
@@ -136,6 +250,14 @@
     <!-- JavaScript files-->
     
     <script>
+       $(document).ready( function () {
+          $('#TableDataBestMatches').DataTable();
+      } );
+
+       $(document).ready( function () {
+          $('#TableDataBestMatchesAverage').DataTable();
+      } );
+       
       // ------------------------------------------------------- //
       //   Inject SVG Sprite - 
       //   see more here 
@@ -161,6 +283,8 @@
       
       
     </script>
+    <script type="text/javascript" src="<?=$this->config->base_url()?>asset/js/DataTables/datatables.min.js"></script>
+    
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </body>

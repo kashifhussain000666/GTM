@@ -244,5 +244,43 @@ class model_user extends CI_Model {
 		return $result;
 
 	}
+
+	public function Get5BestMatches()
+	{
+		$query = "	
+					SELECT -- eventscheduleid,
+					playerid,
+					name, 
+					opponent, 
+					course, 
+					frontgtpar, 
+					backgtpar, 
+					-- gtparscore,
+					(frontgsp + backgsp) AS GSP, 
+					(frontholeouts + backholeouts) AS holeouts 
+					from stats WHERE 1=1 
+					-- gtparscore IS NOT NULL
+					GROUP BY playerid -- eventscheduleid;
+				";
+	    $result = $this->db->query($query)->result_array();			
+		return $result;
+	} 
+
+	public function Get5BestMatchesAverage()
+	{
+		$query = '
+					SELECT eventname, 
+					/*-- AVG(gtparscore),*/ 
+					AVG(frontgsp + backgsp) as 18gtpar, 
+					AVG(frontholeouts + backholeouts)  as 18gsp,
+					AVG(backgtpar) as backgtpar,
+					AVG(frontgtpar) as frontgtpar, 
+					AVG(frontdifferential + backdifferential) as differential
+					from stats WHERE 1=1 /* gtparscore IS NOT NULL*/
+					GROUP BY eventname;
+				';
+		 $result = $this->db->query($query)->result_array();			
+		return $result;
+	}
 	
 }

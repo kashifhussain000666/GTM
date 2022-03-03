@@ -31,7 +31,14 @@ class ControllerUser extends CI_Controller {
 		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
 	      header('Location:'. base_url().'login');
 	    }
-		$this->load->view('user/home');
+ 		$data['divisionlist']           = $this->model_user->getAllDivisions();
+	    $data['Leaderboards']			= $this->model_user->GetLeaderboardDetails();
+	    $data['RecentDivisionResults'] 	= $this->model_user->GetLeagueScheduleDetails();
+	    $data['Get5BestMatches'] 		= $this->model_user->Get5BestMatches();
+	    $data['Get5BestMatchesAverage'] =  $this->model_user->Get5BestMatchesAverage();
+
+
+		$this->load->view('user/home', $data);
 	}
 
 	public function login()
@@ -369,5 +376,75 @@ class ControllerUser extends CI_Controller {
 	   
 
 	   
+	}
+
+	public function Get5BestMatchesGrid($MatchesData, $isAjax='0')
+	{
+		ob_start();
+			$RecordNo = 0;
+		    foreach($MatchesData as $Data)
+		    {
+		       $RecordNo++;
+		      ?>
+		      	<tr>
+		          <th scope="row"><?=$RecordNo ?></th>
+		          <td><?=$Data['name'] ?></td>
+		          <td><?=$Data['opponent'] ?></td>
+		           <td><?=$Data['course'] ?></td>
+		          <td><?=$Data['frontgtpar'] ?></td>
+		          <td><?=$Data['backgtpar'] ?></td>
+		          <td><?=$Data['GSP'] ?></td>
+		          <td><?=$Data['holeouts']?></td>
+		        </tr>
+		      <?php
+		    }
+		    if($RecordNo == 0)
+		    {
+		    	?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php 
+		    }
+		$output = ob_get_clean();  
+
+		
+		return $output;
+	   
+	}
+
+	public function Get5BestMatchesAverageGrid($Get5BestMatchesAverage, $isAjax='0')
+	{
+		/*<th>#</th>
+                            <th>Event Name</th>
+                            <th>18 GT Par</th>
+                            <th>18 GSP</th>
+                            <th>18 Holeouts</th>
+                            <th>backgtpar</th>
+                            <th>frontgtpar</th>
+                            <th>Differential</th>*/
+
+        ob_start();
+			$RecordNo = 0;
+		    foreach($Get5BestMatchesAverage as $Data)
+		    {
+		       $RecordNo++;
+		      ?>
+		      	<tr>
+		          <th scope="row"><?=$RecordNo ?></th>
+		          <td><?=$Data['eventname'] ?></td>
+		          <td><?=$Data['18gtpar'] ?></td>
+		          <td><?=$Data['18gsp'] ?></td>
+		          <td><?=$Data['backgtpar'] ?></td>
+		          <td><?=$Data['backgtpar'] ?></td>
+		          <td><?=$Data['frontgtpar'] ?></td>
+		          <td><?=$Data['differential']?></td>
+		        </tr>
+		      <?php
+		    }
+		    if($RecordNo == 0)
+		    {
+		    	?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php 
+		    }
+		$output = ob_get_clean();  
+
+		
+		return $output;
 	}
 }
