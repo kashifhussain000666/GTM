@@ -37,8 +37,9 @@ class ControllerUser extends CI_Controller {
 	    $data['Get5BestMatches'] 		= $this->model_user->Get5BestMatches();
 	    $data['Get5BestMatchesAverage'] =  $this->model_user->Get5BestMatchesAverage();
 
-
-		$this->load->view('user/home', $data);
+	    $data['ChartData_CourceAverage'] = $this->model_user->getChartData_CourceAverage();
+	    $data['ChartData_CourceComparison'] = $this->model_user->getChartData_CourceComparison();
+		$this->load->view('user/home',$data);
 	}
 
 	public function login()

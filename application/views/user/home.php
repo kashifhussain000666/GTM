@@ -43,9 +43,9 @@
           </div>
         </div>
         <div style="border:1px solid;">
-          <div id="scatterChart" style="width:35%;display: inline-block;"></div>
-          <div id="barChart" style="width:35%;display: inline-block;"></div>
-          <div id="pieChart" style="width:25%;display: inline-block;"></div>
+          <div id="scatterChart" style="width:40%;display: inline-block;"></div>
+          <div id="barChart" style="width:40%;display: inline-block;"></div>
+          <div id="pieChart" style="width:18%;display: inline-block;"></div>
         </div>
         <section class=" pt-2 ">
               <div class="row table-responsive">
@@ -161,12 +161,19 @@
 
         <script>
         // Bar Chart start here
-        var xArray = ["TP", "VP", "PC", "DV", "RB","CS","CH","HM","JF","TG","RH","DC","AR","ER"];
-
+        var ChartData_CourceComparison = <?=json_encode($ChartData_CourceComparison)?>;
+        var xArray = [];
+        var yArrayBest = [];
+        var yArrayWorst = [];
+        for( let i = 0; i < ChartData_CourceComparison.length; i++ ){
+          xArray.push( ChartData_CourceComparison[i]['course'] );
+          yArrayBest.push( ChartData_CourceComparison[i]['maxscore'] );
+          yArrayWorst.push( ChartData_CourceComparison[i]['minscore'] );
+        }
         var data = [
           {
             x: xArray,
-            y: [5, 4, 4, -2, 1,5, 4, 4, -1, 5,5, 9, 4, -2],
+            y: yArrayWorst,
             type:"bar",
             name: "Worst Score",
             marker: {
@@ -175,7 +182,7 @@
           }
           ,{
             x: xArray,
-            y: [55, 49, 44, -2, 15,55, 49, 44, -1, 15,55, 49, 44, -2],
+            y: yArrayBest,
             type: "bar",
             name: "Best Score",
             marker: {
@@ -192,10 +199,7 @@
           paper_bgcolor:"#22252a",
           font: {
             color: '#fff'
-          },
-          // height : '100px'
-          // width: 500,
-          // height: 300,
+          }
         };
         Plotly.newPlot("barChart", data, layout,config);
 
@@ -218,19 +222,23 @@
         Plotly.newPlot("pieChart", data, layout,config);
 
         // Scatter Chart
-        var xArray = [2,1.5,0,3,90,100,110,120,130,140,150];
-        var yArray = [1,0.2,1,2,9,9,10,11,14,14,15];
-        // Define Data
-        var data = [{
-          x: xArray,
-          y: yArray,
-          mode:"markers",
-          type:"scatter",
-          marker: { size: 14 }
-        }];
+        var ChartData_CourceAverage = <?=json_encode($ChartData_CourceAverage)?>;
+        data = [];
+        for(let i = 0;i<ChartData_CourceAverage.length; i++ ){
+          let x = {
+            x: [ChartData_CourceAverage[i]['avg_frontgtpar']],
+            y: [ChartData_CourceAverage[i]['avg_backgtpar']],
+            name: ChartData_CourceAverage[i]['course'],
+            text: ChartData_CourceAverage[i]['course'],
+            mode:"markers",
+            type:"scatter",
+            marker: { size: 14 }
+          };
+          data.push(x);
+        }
         var layout = {
           xaxis: {range: [0, 3], title: "Front 9 GT Par"},
-          yaxis: {range: [-2, 6], title: "Back 9 GT Par"},
+          yaxis: {range: [0, 6], title: "Back 9 GT Par"},
           title: "Course Averages",
           plot_bgcolor:"#22252a",
           paper_bgcolor:"#22252a",

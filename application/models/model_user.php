@@ -282,5 +282,41 @@ class model_user extends CI_Model {
 		 $result = $this->db->query($query)->result_array();			
 		return $result;
 	}
+	public function getChartData_CourceAverage()
+	{
+		$query  = $this->db->query(" 	
+									SELECT divisionid
+										,divisionname
+										,playerid
+										,course
+										,AVG(gtparscore) avg_gtparscore
+										,AVG(frontgtpar) avg_frontgtpar
+										,AVG(backgtpar) avg_backgtpar
+									from stats 
+									WHERE gtparscore IS NOT NULL 
+									GROUP BY course;
+									");
+		
+		$result = $query->result_array();			
+		return $result;
+	}
+	public function getChartData_CourceComparison()
+	{
+		$query  = $this->db->query(" 	
+									SELECT playerid
+										,name
+										,course
+										,MAX(gtparscore) as maxscore
+										,MIN(gtparscore) as minscore
+										,AVG(gtparscore) as avgscore
+										,std(gtparscore) as standardev
+									from stats 
+									WHERE gtparscore IS NOT NULL 
+									GROUP BY course;
+									");
+		
+		$result = $query->result_array();			
+		return $result;
+	}
 	
 }
