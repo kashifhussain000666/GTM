@@ -56,8 +56,8 @@ border-color: #ff0000;
 
 .home-division-filter-div{
 	padding: 1px;
-    border: 1px solid;
-    max-height: 386px;
+    border-bottom: 1px solid;
+    max-height: 300px;
     overflow: auto;
 }
 
