@@ -39,6 +39,7 @@ class ControllerUser extends CI_Controller {
 
 	    $data['ChartData_CourceAverage'] = $this->model_user->getChartData_CourceAverage();
 	    $data['ChartData_CourceComparison'] = $this->model_user->getChartData_CourceComparison();
+	    $data['eventdetails']            = $this->model_user->geteventdetails();
 		$this->load->view('user/home',$data);
 	}
 
@@ -311,8 +312,8 @@ class ControllerUser extends CI_Controller {
 		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
 	      header('Location:'. base_url().'login');
 	    }
-
-	    $data['divisionlist']           = $this->model_user->getAllDivisions();
+	    $filter = " and  divisionname	 in ('Bronze', 'Gold', 'Noonan', 'Purple', 'Silver', 'Spackler', 'Webb')";
+	    $data['divisionlist']           = $this->model_user->getAllDivisions($filter);
 	    $data['Leaderboards']			= $this->model_user->GetLeaderboardDetails();
 	    $data['RecentDivisionResults'] 	= $this->model_user->GetLeagueScheduleDetails();
 		$this->load->view('user/Leaderboard', $data);
@@ -401,7 +402,8 @@ class ControllerUser extends CI_Controller {
 		    }
 		    if($RecordNo == 0)
 		    {
-		    	?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php 
+		       ?> 0 <?php
+		    /*	?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php */
 		    }
 		$output = ob_get_clean();  
 
@@ -412,15 +414,6 @@ class ControllerUser extends CI_Controller {
 
 	public function Get5BestMatchesAverageGrid($Get5BestMatchesAverage, $isAjax='0')
 	{
-		/*<th>#</th>
-                            <th>Event Name</th>
-                            <th>18 GT Par</th>
-                            <th>18 GSP</th>
-                            <th>18 Holeouts</th>
-                            <th>backgtpar</th>
-                            <th>frontgtpar</th>
-                            <th>Differential</th>*/
-
         ob_start();
 			$RecordNo = 0;
 		    foreach($Get5BestMatchesAverage as $Data)
@@ -441,11 +434,37 @@ class ControllerUser extends CI_Controller {
 		    }
 		    if($RecordNo == 0)
 		    {
-		    	?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php 
+		    	 ?> 0 <?php
+		    	/*?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php */
 		    }
 		$output = ob_get_clean();  
-
-		
 		return $output;
 	}
+
+	public function GetStateResultOnAjax()
+	{
+		$division_list = $this->input->post('divisionID');
+		$eventID       = $this->input->post('eventID');
+		$user_name     = $this->input->post('user_name');
+
+
+		$filter = '';
+		if($division_list !='')
+		$filter = " AND Divisionid in ( ".$division_list.")";
+
+		if($eventID !='')
+		$filter .= " AND eventdetailsid in ( ".$eventID.")";
+
+		if(trim($user_name) !='')
+		$filter .= " AND name like '%".$user_name."%' ";
+
+		$Get5BestMatches	= $this->model_user->Get5BestMatches($filter);
+	    $Get5BestMatchesAverage =  $this->model_user->Get5BestMatchesAverage($filter);
+
+	    $data['Get5BestMatchesGrid'] = $this->Get5BestMatchesGrid($Get5BestMatches , $isAjax='0');
+	    $data['Get5BestMatchesAverageGrid'] =$this->Get5BestMatchesAverageGrid($Get5BestMatchesAverage, $isAjax='0');
+		
+		echo json_encode($data, TRUE);
+	}
 }
+

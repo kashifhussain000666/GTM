@@ -233,6 +233,7 @@
         $.ajax({
           url: BaseUrl+'ControllerUser/GetDivisionRecentResultAjax',
           type: 'post',
+          async: false,
           data :{
             divisionID : divisionID
           },

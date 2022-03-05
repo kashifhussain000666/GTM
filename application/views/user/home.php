@@ -47,117 +47,201 @@
           <div id="barChart" style="width:40%;display: inline-block;"></div>
           <div id="pieChart" style="width:18%;display: inline-block;"></div>
         </div>
-        <section class=" pt-2 ">
+        <div class="row">
+          <div class="col-md-3">
+            <section class=" pt-2 ">
               <div class="row table-responsive">
-                <div class="col-md-12"><hr>
-                </div>
+                  <div class="col-md-12"><hr>
+                  </div>
               </div>
-              <div class="container-fluid pl-1 pr-1">
-                <div class="row ">
-                  <div class="col-lg-12">
-                    <h3>Best 5 Matches</h3>
-                  </div>
-                </div>
-                <div class="row ">
-                  <div class="col-md-12">
-                    <!-- <b>Filters: </b>
-                    <?php
-                    foreach($divisionlist as $division)
-                    {
-                    ?>
-                    <div class="form-check d-inline-block m-2">
-                     
-                        <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
-                        <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
-                      
+               <div class="row">
+                <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-check  ">
+                           <label class="form-check-label" for="chk_division_0"><b>Filter By User</b></label>
+                        </div>
+                        <div class="form-check"> 
+                         <input type="text" value="" class="form-control" name="user_name" id="user_name" onkeyup="CheckAllDivision(this)"> 
+                      </div>
                     </div>
-                    <?php 
-                    } ?> -->
                   </div>
                 </div>
-                <div class="row DivisionDataTableBorder" style="padding-top: 11px;" >
-                  <div class="col-md-12">
-                    <table id="TableDataBestMatches" class="table mb-0 table-striped table-responsive table-bordered">
-                        <thead>
-                          <tr style="font-size: 12px;">
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Opponent</th>
-                            <th>Cours</th>
-                            <th>F9 GTPar</th>
-                            <th>B9 GTPar</th>
-                            <th>GSP</th>
-                            <th>Holeouts</th>
-                            
-                        </tr>
-                      </thead>
-                      <tbody>
-                          <?php
-                          echo $controllObj->Get5BestMatchesGrid($Get5BestMatches, $isAjax='0');
-                        
-                          ?>
-                      </tbody>
-                    </table>
+              </div><br><br>
+              <div class="row ">
+                <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-check  ">
+                            <input class="devision_chk_box" onchange="CheckAllDivision(this)" divisionID='0'  value='0' class="form-check-input" id="chk_division_0" type="checkbox" >
+                            <label class="form-check-label" for="chk_division_0"><b>Divisions</b></label>
+                        </div>
+                        <div class="home-division-filter-div"> 
+                         
+                          
+                        <?php
+                        foreach($divisionlist as $division)
+                        {
+                        ?>
+                        <div class="form-check  mt-2">
+                         
+                            <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                            <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
+                          
+                        </div>
+                        <?php 
+                        } ?> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div><br><br>
+               <div class="row">
+                <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-check  ">
+                            <input class="event_chk_box" onchange="CheckAllEvent(this)" divisionID='0'  value='0' class="form-check-input" id="chk_event_0" type="checkbox" >
+                            <label class="form-check-label" for="chk_division_0">All Events</label>
+                          </div>
+                        <div class="home-division-filter-div"> 
+                          
+                          
+                        <?php
+                        foreach($eventdetails as $event)
+                        {
+                        ?>
+                        <div class="form-check  mt-2">
+                         
+                            <input class="event_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$event['id']?>'  value='<?=$event['id']?>' class="form-check-input" id="chk_event_<?=$event['id']?>" type="checkbox" >
+                            <label class="form-check-label" for="chk_event_<?=$event['id']?>"><?=$event['eventname']?></label>
+                          
+                        </div>
+                        <?php 
+                        } ?> 
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </section>
+          </div>
+          <div class="col-md-9">
+            <section class=" pt-2 ">
+                <div class="row table-responsive">
+                  <div class="col-md-12"><hr>
+                  </div>
+                </div>
+                <div class="container-fluid p-0">
+                  <div class="row ">
+                    <div class="col-lg-12">
+                      <h3>Best 5 Matches</h3>
+                    </div>
+                  </div>
+                 <!--  <div class="row ">
+                    <div class="col-md-12">
+                       <b>Filters: </b>
+                      <?php
+                      foreach($divisionlist as $division)
+                      {
+                      ?>
+                      <div class="form-check d-inline-block m-2">
+                       
+                          <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                          <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
+                        
+                      </div>
+                      <?php 
+                      } ?> 
+                    </div>
+                  </div> -->
+                  <div class="row DivisionDataTableBorder" style="padding-top: 11px;" >
+                   
+                    <div class="col-md-12">
+                      <table id="TableDataBestMatches" class="table mb-0 table-striped table-responsive table-bordered">
+                          <thead>
+                            <tr style="font-size: 12px;">
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Opponent</th>
+                              <th>Cours</th>
+                              <th>F9 GTPar</th>
+                              <th>B9 GTPar</th>
+                              <th>GSP</th>
+                              <th>Holeouts</th>
+                              
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            echo $controllObj->Get5BestMatchesGrid($Get5BestMatches, $isAjax='0');
+                          
+                            ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
-                    <section class=" pt-2 ">
-              <div class="row table-responsive">
-                <div class="col-md-12"><hr>
-                </div>
-              </div>
-              <div class="container-fluid pl-1 pr-1">
-                <div class="row ">
-                  <div class="col-lg-12">
-                    <h3>Best 5 Matches Average</h3>
+                      <section class=" pt-2 ">
+                <div class="row table-responsive">
+                  <div class="col-md-12"><hr>
                   </div>
                 </div>
-                <div class="row ">
-                  <div class="col-md-12">
-                   <!--  <b>Filters: </b> -->
-                   <!--  <?php
-                    foreach($divisionlist as $division)
-                    {
-                    ?>
-                    <div class="form-check d-inline-block m-2">
-                     
-                        <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
-                        <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
-                      
+                <div class="container-fluid p-0">
+                  <div class="row ">
+                    <div class="col-lg-12">
+                      <h3>Best 5 Matches Average</h3>
                     </div>
-                    <?php 
-                    } ?> -->
                   </div>
-                </div>
-                <div class="row DivisionDataTableBorder" style="padding-top: 11px;" >
-                  <div class="col-md-12">
-                    <table id="TableDataBestMatchesAverage" class="table mb-0 table-striped table-responsive table-bordered">
-                        <thead>
-                          <tr style="font-size: 12px;">
-                            <th>#</th>
-                            <th>Event Name</th>
-                            <th>18 GT Par</th>
-                            <th>18 GSP</th>
-                            <th>18 Holeouts</th>
-                            <th>backgtpar</th>
-                            <th>frontgtpar</th>
-                            <th>Differential</th>
-                            
-                        </tr>
-                      </thead>
-                      <tbody>
-                          <?php
-                          echo $controllObj->Get5BestMatchesAverageGrid($Get5BestMatchesAverage, $isAjax='0');
+                  <div class="row ">
+                    <div class="col-md-12">
+                     <!--  <b>Filters: </b> -->
+                     <!--  <?php
+                      foreach($divisionlist as $division)
+                      {
+                      ?>
+                      <div class="form-check d-inline-block m-2">
+                       
+                          <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                          <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
                         
-                          ?>
-                      </tbody>
-                    </table>
+                      </div>
+                      <?php 
+                      } ?> -->
+                    </div>
+                  </div>
+                  <div class="row DivisionDataTableBorder" style="padding-top: 11px;" >
+                    
+                    <div class="col-md-12">
+                      <table id="TableDataBestMatchesAverage" class="table mb-0 table-striped table-responsive table-bordered">
+                          <thead>
+                            <tr style="font-size: 12px;">
+                              <th>#</th>
+                              <th>Event Name</th>
+                              <th>18 GT Par</th>
+                              <th>18 GSP</th>
+                              <th>18 Holeouts</th>
+                              <th>backgtpar</th>
+                              <th>frontgtpar</th>
+                              <th>Differential</th>
+                              
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            echo $controllObj->Get5BestMatchesAverageGrid($Get5BestMatchesAverage, $isAjax='0');
+                          
+                            ?>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
+          </div>
+        </div>
 
         <script>
         // Bar Chart start here
@@ -255,6 +339,8 @@
         <?php $this->load->view('includes/footer'); ?>
       </div>
     </div>
+    <div id="loader" class="">
+    </div>
     <!-- JavaScript files-->
     
     <script>
@@ -289,6 +375,100 @@
       // pls don't forget to change to your domain :)
       injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
       
+
+      function GetDevisionResult(obj='')
+      {
+        
+        BaseUrl = '<?=$this->config->base_url()?>';
+        user_name = $('#user_name').val();
+        divisionID = $(obj).attr("divisionID");
+        var checkedVals = $('.devision_chk_box:checkbox:checked').map(function() {
+              return this.value;
+          }).get();
+        divisionID = checkedVals.join(",");
+
+        var eventCheckedVals = $('.event_chk_box:checkbox:checked').map(function() {
+              return this.value;
+          }).get();
+        eventID = eventCheckedVals.join(",");
+        $('#loader').addClass('loader');
+        $.ajax({
+          url: BaseUrl+'ControllerUser/GetStateResultOnAjax',
+          type: 'post',
+          data :{
+            divisionID : divisionID,
+            eventID    : eventID,
+            user_name  : user_name
+          },
+          success:function(response){
+            
+            res = JSON.parse(response);
+            Get5BestMatchesGrid        = $.trim(res['Get5BestMatchesGrid']);
+            Get5BestMatchesAverageGrid = $.trim(res['Get5BestMatchesAverageGrid']);
+            
+            if($.trim(Get5BestMatchesGrid) !='')
+            {
+
+              $("#TableDataBestMatches > tbody").html("");
+              $('#TableDataBestMatches').DataTable().clear().destroy();;
+              
+              if(Get5BestMatchesGrid != '0')
+              $("#TableDataBestMatches > tbody").append(Get5BestMatchesGrid);
+             
+              $('#TableDataBestMatches').DataTable();
+              $("#TableDataBestMatches_length select").trigger('change');
+            }
+            if($.trim(Get5BestMatchesAverageGrid) !='')
+            {
+              $("#TableDataBestMatchesAverage > tbody").html("");
+              $('#TableDataBestMatchesAverage').DataTable().clear().destroy();
+              //table2.clear().draw();
+              if(Get5BestMatchesAverageGrid != '0')
+              $("#TableDataBestMatchesAverage > tbody").append(Get5BestMatchesAverageGrid);
+              $('#TableDataBestMatchesAverage').DataTable();
+
+              $("#TableDataBestMatchesAverage_length select").trigger('change');
+            }
+
+            $('#loader').removeClass('loader');
+            
+          }
+        });
+        
+      }
+
+      function CheckAllDivision(obj)
+      { 
+        if($('#chk_division_0').is(':checked'))
+        {
+          $('.devision_chk_box').attr('checked', true);
+        } 
+        else
+        {
+          $('.devision_chk_box').attr('checked', false);
+        }
+        // divisionID = $(obj).(":checked");
+        GetDevisionResult(obj='');
+         
+      }
+
+
+      function CheckAllEvent(obj='')
+      {
+
+        if($('#chk_event_0').is(':checked'))
+        {
+          $('.event_chk_box').attr('checked', true);
+        } 
+        else
+        {
+          $('.event_chk_box').attr('checked', false);
+        }
+        // divisionID = $(obj).(":checked");
+        GetDevisionResult(obj='');
+      }
+
+
       
     </script>
     <script type="text/javascript" src="<?=$this->config->base_url()?>asset/js/DataTables/datatables.min.js"></script>

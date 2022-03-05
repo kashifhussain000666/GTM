@@ -233,52 +233,60 @@ class model_user extends CI_Model {
 		return $result;
 	}
 
-	public function getAllDivisions()
+	public function getAllDivisions($filter='')
 	{
+		if($filter == '')
+		{
+			
+		}
 		$query = "
 		     		select *
 		     		from divisiondetails d
-		     		where divisionname	 in ('Bronze', 'Gold', 'Noonan', 'Purple', 'Silver', 'Spackler', 'Webb')
+		     		where 1=1  
+		     		$filter
 				";
 		$result = $this->db->query($query)->result_array();			
 		return $result;
 
 	}
 
-	public function Get5BestMatches()
+	public function Get5BestMatches($fiters ='')
 	{
 		$query = "	
-					SELECT -- eventscheduleid,
+					SELECT eventscheduleid,
 					playerid,
 					name, 
 					opponent, 
 					course, 
 					frontgtpar, 
 					backgtpar, 
-					-- gtparscore,
+					gtparscore,
 					(frontgsp + backgsp) AS GSP, 
 					(frontholeouts + backholeouts) AS holeouts 
 					from stats WHERE 1=1 
-					-- gtparscore IS NOT NULL
-					GROUP BY playerid -- eventscheduleid;
+					and gtparscore IS NOT NULL
+					$fiters
+					GROUP BY playerid,  eventscheduleid;
 				";
 	    $result = $this->db->query($query)->result_array();			
 		return $result;
 	} 
 
-	public function Get5BestMatchesAverage()
+	public function Get5BestMatchesAverage($filter='')
 	{
-		$query = '
+		$query = "
 					SELECT eventname, 
-					/*-- AVG(gtparscore),*/ 
+					 AVG(gtparscore),
 					AVG(frontgsp + backgsp) as 18gtpar, 
 					AVG(frontholeouts + backholeouts)  as 18gsp,
 					AVG(backgtpar) as backgtpar,
 					AVG(frontgtpar) as frontgtpar, 
 					AVG(frontdifferential + backdifferential) as differential
-					from stats WHERE 1=1 /* gtparscore IS NOT NULL*/
+					from stats WHERE 1=1 
+					and gtparscore IS NOT NULL
+					$filter
 					GROUP BY eventname;
-				';
+				";
 		 $result = $this->db->query($query)->result_array();			
 		return $result;
 	}
@@ -317,6 +325,16 @@ class model_user extends CI_Model {
 		
 		$result = $query->result_array();			
 		return $result;
+	}
+
+	public function geteventdetails()
+	{
+		$query = "
+					SELECT * FROM `eventdetails`
+				";
+		$result = $this->db->query($query)->result_array();			
+		return $result;
+
 	}
 	
 }
