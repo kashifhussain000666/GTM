@@ -73,8 +73,8 @@
                   <div class="row">
                     <div class="col-md-12">
                         <div class="form-check  ">
-                            <input class="devision_chk_box" onchange="CheckAllDivision(this)" divisionID='0'  value='0' class="form-check-input" id="chk_division_0" type="checkbox" >
-                            <label class="form-check-label" for="chk_division_0"><b>Divisions</b></label>
+                            <input class="devision_chk_box" onclick="CheckAllDivision(this)" divisionID='0'  value='0' class="form-check-input" id="chk_division_0" type="checkbox" >
+                            <label class="form-check-label" for="chk_division_0"><h4>Divisions</h4></label>
                         </div>
                         <div class="home-division-filter-div"> 
                          
@@ -85,7 +85,7 @@
                         ?>
                         <div class="form-check  mt-2">
                          
-                            <input class="devision_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                            <input class="devision_chk_box" onclick="GetDevisionFilterResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
                             <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
                           
                         </div>
@@ -101,8 +101,8 @@
                   <div class="row">
                     <div class="col-md-12">
                         <div class="form-check  ">
-                            <input class="event_chk_box" onchange="CheckAllEvent(this)" divisionID='0'  value='0' class="form-check-input" id="chk_event_0" type="checkbox" >
-                            <label class="form-check-label" for="chk_division_0">All Events</label>
+                            <input class="event_chk_box" onclick="CheckAllEvent(this)" divisionID='0'  value='0' class="form-check-input" id="chk_event_0" type="checkbox" >
+                            <label class="form-check-label" for="chk_division_0"><h4>All Events</h4></label>
                           </div>
                         <div class="home-division-filter-div"> 
                           
@@ -113,7 +113,7 @@
                         ?>
                         <div class="form-check  mt-2">
                          
-                            <input class="event_chk_box" onchange="GetDevisionResult(this)" divisionID='<?=$event['id']?>'  value='<?=$event['id']?>' class="form-check-input" id="chk_event_<?=$event['id']?>" type="checkbox" >
+                            <input class="event_chk_box" onclick="GetEventResult(this)" divisionID='<?=$event['id']?>'  value='<?=$event['id']?>' class="form-check-input" id="chk_event_<?=$event['id']?>" type="checkbox" >
                             <label class="form-check-label" for="chk_event_<?=$event['id']?>"><?=$event['eventname']?></label>
                           
                         </div>
@@ -447,8 +447,9 @@
         {
           $('.devision_chk_box').attr('checked', false);
         }
+        $('.devision_chk_box').trigger('change');
         // divisionID = $(obj).(":checked");
-        GetDevisionResult(obj='');
+        GetDevisionResult(obj='', isall=1);
          
       }
 
@@ -464,10 +465,23 @@
         {
           $('.event_chk_box').attr('checked', false);
         }
+        //$('.event_chk_box').trigger('change');
         // divisionID = $(obj).(":checked");
+       GetDevisionResult(obj='');
+      }
+
+      function GetEventResult(obj='')
+      {
+
+        $('#chk_event_0').prop('checked', false);
         GetDevisionResult(obj='');
       }
 
+      function GetDevisionFilterResult(obj='')
+      {
+        $('#chk_division_0').prop('checked', false);
+        GetDevisionResult(obj='');
+      }
 
       
     </script>
