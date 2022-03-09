@@ -336,5 +336,13 @@ class model_user extends CI_Model {
 		return $result;
 
 	}
+
+	public function GetCountryStates($county_id)
+	{
+		$query = "SELECT * FROM `state` WHERE country_id = $county_id";
+		$result = $this->db->query($query)->result_array();			
+		return $result;
+
+	}
 	
 }

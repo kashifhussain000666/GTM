@@ -217,7 +217,7 @@ class admin extends CI_Controller {
 
     $data["user_infos"] = $this->model_admin->getUserdata($userid);
     $data["Countries"] = $this->model_admin->GetAllCountries();
-    $data["States"] = $this->model_admin->GetAllStates();
+   // $data["States"] = $this->model_admin->GetAllStates();
     $data["PaymentProviders"] = $this->model_admin->GetAllPaymentProviders();
     $this->load->view('admin/updateuser',$data);
 
@@ -259,4 +259,20 @@ class admin extends CI_Controller {
       
     }
   }
+
+  public function GetAllStates($sel_country=0)
+  {
+    if($sel_country != 0 && $sel_country !='')
+    {
+
+      
+    }
+    else
+    {
+      $sel_country = 0;
+    }
+    $where                      = " AND country_id  = $sel_country";
+  
+    return $this->model_admin->GetAllStates($where);
+   }
 }

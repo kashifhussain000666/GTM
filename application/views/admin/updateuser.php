@@ -36,7 +36,8 @@
    //user exists
     die("Oops! Something went wrong please contact site administrator.");
   }
-
+    $States = array();
+    $controllObj =& get_instance();
     $txt_PlayerID = '' ;
     $txt_Email = '' ;
     $txt_FirstName = '' ;
@@ -66,7 +67,8 @@
           $txt_City             = $user_info['city'];
           $txt_amountowed       = $user_info['amountowed'];
           $hdn_eventdetailsid   = $user_info['eventdetailsid'];
-          
+          $sel_State            = $user_info['state'];
+          $States               = $controllObj->GetAllStates($sel_Country);
         }
       }
     }
@@ -185,7 +187,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <label class="form-label" for="exampleInputEmail1">Country</label>
-                        <select class="form-select mb-3" name="sel_Country" id="sel_Country">
+                        <select onchange="LoadStates(this.id, 'sel_State')" class="form-select mb-3" name="sel_Country" id="sel_Country">
                           <option value="">Select</option>
                           <?php 
                           foreach($Countries as $Country)
@@ -392,6 +394,34 @@
       {
         $("#form_updateuser").submit();
         
+      }
+    }
+
+      function LoadStates(ID, stateSelectID)
+    {
+      BaseUrl = '<?=$this->config->base_url()?>';
+      county_id = $("#"+ID).val();
+      if(county_id == 0 || county_id == 0  || county_id < 0)
+      {
+        $("#"+stateSelectID).empty();
+      }
+      else
+      {
+        $.ajax({
+          type : 'post',
+          url  : BaseUrl+'ControllerUser/LoadStatesHTML',
+          data : {
+
+                county_id : county_id
+          },
+          success:function(response){
+            if(response !='')
+            {
+                $("#"+stateSelectID).empty();
+                $("#"+stateSelectID).append(response);
+            }
+          }
+        });
       }
     }
     </script>

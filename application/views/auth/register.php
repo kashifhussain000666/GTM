@@ -111,8 +111,8 @@
                     <div class="row ">
                       <div class="col-md-6  ">
                         <label class="form-label  mb-0" for="sel_country">Conutry *</label>
-                        <select class="form-select" id="sel_country" name="sel_country" aria-label="Default select example">
-                          <option value="">Select Country</option>
+                        <select class="form-select" onchange="LoadStates(this.id, 'sel_state')"id="sel_country" name="sel_country" aria-label="Default select example">
+                          <option value="0">Select Country</option>
                           <?php 
                           foreach($Countries as $Country)
                           {
@@ -326,6 +326,34 @@
     }
     return false;
     });
+
+    function LoadStates(ID, stateSelectID)
+    {
+      BaseUrl = '<?=$this->config->base_url()?>';
+      county_id = $("#"+ID).val();
+      if(county_id == 0 || county_id == 0  || county_id < 0)
+      {
+        $("#"+stateSelectID).empty();
+      }
+      else
+      {
+        $.ajax({
+          type : 'post',
+          url  : BaseUrl+'ControllerUser/LoadStatesHTML',
+          data : {
+
+                county_id : county_id
+          },
+          success:function(response){
+            if(response !='')
+            {
+                $("#"+stateSelectID).empty();
+                $("#"+stateSelectID).append(response);
+            }
+          }
+        });
+      }
+    }
     </script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">

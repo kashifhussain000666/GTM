@@ -93,8 +93,15 @@ class ControllerUser extends CI_Controller {
 	public function signup()
 	{
 
+		$sel_country		        = $this->input->post('sel_country');
+		$where                      = " AND country_id  = 0";
+
+		if($sel_country != 0)
+		{
+			$where                      = " AND country_id  = $sel_country";
+		}
 		$data['Countries']			= $this->model_admin->GetAllCountries();
-		$data['States']				= $this->model_admin->GetAllStates();
+		$data['States']				= $this->model_admin->GetAllStates($where);
 		$data['PaymentProviders']	= $this->model_admin->GetAllPaymentProviders();
 		$data['error'] = '';
 		if(isset($_REQUEST['hdn_btn_signup'])=="")
@@ -466,5 +473,20 @@ class ControllerUser extends CI_Controller {
 		
 		echo json_encode($data, TRUE);
 	}
+
+	public function LoadStatesHTML()
+	{
+		$county_id = $this->input->post('county_id');
+		$States = $this->model_user->GetCountryStates($county_id);
+		echo '<option value="0">Select State</option>';
+		foreach($States as $State)
+        { ?>
+        <option value="<?=$State['id'] ?>"><?php echo $State['name']; ?></option>
+        <?php 
+        }
+	}
+
+	
+
 }
 

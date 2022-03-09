@@ -74,7 +74,7 @@ class model_admin extends CI_Model {
 										join eventdetails as ed on ed.id = er.eventdetailsid 
 										WHERE er.playerid = u.playerid
 										AND ed.currentseason = 1
-										 limit 1
+										limit 1
                                     )amountowed,
                                     (
                                     	SELECT er.id
@@ -137,7 +137,7 @@ class model_admin extends CI_Model {
 										FROM GTMTheLeague.eventroster as er 
 										join eventdetails as ed on ed.id = er.eventdetailsid 
 										WHERE er.playerid = u.playerid
-										AND ed.currentseason = 1
+										 AND ed.currentseason = 1
 										limit 1
                                     )amountowed,
                                     (
@@ -145,7 +145,7 @@ class model_admin extends CI_Model {
 										FROM GTMTheLeague.eventroster as er 
 										join eventdetails as ed on ed.id = er.eventdetailsid 
 										WHERE er.playerid = u.playerid
-										AND ed.currentseason = 1
+									    AND ed.currentseason = 1
 										limit 1
                                     )eventdetailsid
 									FROM user u
@@ -167,11 +167,14 @@ class model_admin extends CI_Model {
 		$result = $query->result_array();			
 		return $result;
 	}
-	public function GetAllStates()
+	public function GetAllStates($where='')
 	{
+
 	  	$query  = $this->db->query(" 	
 	  								SELECT *
     								from state s
+    								where 1=1 
+    								$where
     								ORDER BY name asc
 								");
 		
@@ -227,6 +230,9 @@ class model_admin extends CI_Model {
      	$txt_City                     = $this->input->post('txt_City');
      	$txt_amountowed               = $this->input->post('txt_amountowed');
       	$hdn_eventdetailsid           = $this->input->post('hdn_eventdetailsid');
+      	$txt_amountowed               = $this->input->post('txt_amountowed');
+      	if($txt_amountowed == '')
+      	$txt_amountowed = 0;
 	     // UPDATE CASE
 	    if( $Userid != '')
         {
@@ -243,6 +249,7 @@ class model_admin extends CI_Model {
 									`City` = '$txt_City'
 									WHERE id = $Userid
 								");
+        	
         	if(trim($hdn_eventdetailsid)!= '' && trim($hdn_eventdetailsid)!= '')
         	{
         		$query = $this->db->query("
