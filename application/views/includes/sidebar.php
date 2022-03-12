@@ -1,3 +1,4 @@
+
 <nav id="sidebar">
         <!-- Sidebar Header-->
         <div class="sidebar-header d-flex align-items-center p-4"><img class="avatar shadow-0 img-fluid rounded-circle" src="<?=$this->config->base_url()?>asset/img/avatar.jpg" alt="...">
@@ -28,49 +29,146 @@
                  
                 </ul>
               </li>
-              <li class="sidebar-item"><a class="sidebar-link" href="tables.html"> 
-                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
-                        <use xlink:href="#portfolio-grid-1"> </use>
-                      </svg><span>Tables </span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="charts.html"> 
-                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
-                        <use xlink:href="#sales-up-1"> </use>
-                      </svg><span>Charts </span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="forms.html"> 
-                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
-                        <use xlink:href="#survey-1"> </use>
-                      </svg><span>Forms </span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="#exampledropdownDropdown" data-bs-toggle="collapse"> 
+              <?php 
+              if($this->uri->segment(1) == 'home'){ ?>
+
+               <li class="sidebar-item "><a class="sidebar-link" href="#exampledropdownDropdown1" data-bs-toggle="collapse"> 
                       <svg class="svg-icon svg-icon-sm svg-icon-heavy">
                         <use xlink:href="#browser-window-1"> </use>
-                      </svg><span>Example dropdown </span></a>
-                <ul class="collapse list-unstyled " id="exampledropdownDropdown">
-                  <li><a class="sidebar-link" href="#">Page</a></li>
-                  <li><a class="sidebar-link" href="#">Page</a></li>
-                  <li><a class="sidebar-link" href="#">Page</a></li>
+                      </svg><span>Filters </span></a>
+                <ul class="collapse list-unstyled <?php if($this->uri->segment(1) == 'home'){ ?>collapse show<?php }?>" id="exampledropdownDropdown1">
+                 <!--  <li class="sidebar-item <?php if($this->uri->segment(1) == 'home'){ ?>active<?php }?>"><a class="sidebar-link" href="<?=$this->config->base_url()?>update">Update Account</a></li> -->
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-12"><br>
+                              <div class="form-check  ">
+                                 <label class="form-check-label" for="chk_division_0"><b>Filter By User</b></label>
+                              </div>
+                              <div class="form-check"> 
+                               <input type="text" value="" class="form-control" name="user_name" id="user_name" onkeyup="CheckAllDivision(this)"> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div><br><br>
+                    <div class="row ">
+                      <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                        <div class="row">
+                          <div class="col-md-12">
+                              <div class="form-check  ">
+                                  <input class="devision_chk_box" onclick="CheckAllDivision(this)" divisionID='0'  value='0' class="form-check-input" id="chk_division_0" type="checkbox" >
+                                  <label class="form-check-label" for="chk_division_0"><h4>Divisions</h4></label>
+                              </div>
+                              <div class="home-division-filter-div"> 
+                               
+                                
+                              <?php
+                              foreach($divisionlist as $division)
+                              {
+                              ?>
+                              <div class="form-check  mt-2">
+                               
+                                  <input class="devision_chk_box" onclick="GetDevisionFilterResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                                  <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
+                                
+                              </div>
+                              <?php 
+                              } ?> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div><br><br>
+                    <div class="row">
+                      <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                        <div class="row">
+                          <div class="col-md-12">
+                              <div class="form-check  ">
+                                  <input class="event_chk_box" onclick="CheckAllEvent(this)" divisionID='0'  value='0' class="form-check-input" id="chk_event_0" type="checkbox" >
+                                  <label class="form-check-label" for="chk_division_0"><h4>All Events</h4></label>
+                                </div>
+                              <div class="home-division-filter-div"> 
+                                
+                                
+                              <?php
+                              foreach($eventdetails as $event)
+                              {
+                              ?>
+                              <div class="form-check  mt-2">
+                               
+                                  <input class="event_chk_box" onclick="GetEventResult(this)" divisionID='<?=$event['id']?>'  value='<?=$event['id']?>' class="form-check-input" id="chk_event_<?=$event['id']?>" type="checkbox" >
+                                  <label class="form-check-label" for="chk_event_<?=$event['id']?>"><?=$event['eventname']?></label>
+                                
+                              </div>
+                              <?php 
+                              } ?> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                 
                 </ul>
               </li>
-              <li class="sidebar-item"><a class="sidebar-link" href="login.html"> 
+              <?php
+              } ?>
+
+               <?php 
+              if($this->uri->segment(1) == 'Leaderboard'){ ?>
+
+               <li class="sidebar-item "><a class="sidebar-link" href="#exampledropdownDropdown2" data-bs-toggle="collapse"> 
                       <svg class="svg-icon svg-icon-sm svg-icon-heavy">
-                        <use xlink:href="#disable-1"> </use>
-                      </svg><span>Login page </span></a></li>
-        </ul><span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">Extras</span>
-        <ul class="list-unstyled">
-              <li class="sidebar-item"><a class="sidebar-link" href="#"> 
-                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
-                        <use xlink:href="#imac-screen-1"> </use>
-                      </svg><span>Demo </span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="#"> 
-                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
-                        <use xlink:href="#chart-1"> </use>
-                      </svg><span>Demo </span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="#"> 
-                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
-                        <use xlink:href="#quality-1"> </use>
-                      </svg><span>Demo </span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="#"> 
-                      <svg class="svg-icon svg-icon-sm svg-icon-heavy">
-                        <use xlink:href="#security-shield-1"> </use>
-                      </svg><span>Demo </span></a></li>
+                        <use xlink:href="#browser-window-1"> </use>
+                      </svg><span>Filters </span></a>
+                <ul class="collapse list-unstyled <?php if($this->uri->segment(1) == 'Leaderboard'){ ?>collapse show<?php }?>" id="exampledropdownDropdown2">
+                 <!--  <li class="sidebar-item <?php if($this->uri->segment(1) == 'Leaderboard'){ ?>active<?php }?>"><a class="sidebar-link" href="<?=$this->config->base_url()?>update">Update Account</a></li> -->
+                  <div class="col-md-12">
+                    
+                    <div class="row ">
+                      <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                        <div class="row">
+                          <div class="col-md-12"><br>
+                              <div class="form-check  ">
+                                  <input class="devision_chk_box" onclick="CheckAllDivision(this)" divisionID='0'  value='0' class="form-check-input" id="chk_division_0" type="checkbox" >
+                                  <label class="form-check-label" for="chk_division_0"><h4>Divisions</h4></label>
+                              </div>
+                              <div class="home-division-filter-div"> 
+                               
+                                
+                              <?php
+                              foreach($divisionlist as $division)
+                              {
+                              ?>
+                              <div class="form-check  mt-2">
+                               
+                                  <input class="devision_chk_box" onclick="GetDevisionResult(this)" divisionID='<?=$division['id']?>'  value='<?=$division['id']?>' class="form-check-input" id="chk_division_<?=$division['id']?>" type="checkbox" >
+                                  <label class="form-check-label" for="chk_division_<?=$division['id']?>"><?=$division['divisionname']?></label>
+                                
+                              </div>
+                              <?php 
+                              } ?> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                 
+                </ul>
+              </li>
+              <?php
+              } ?>
+
+           
+           
+           
+             
+           
         </ul>
       </nav>

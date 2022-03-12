@@ -319,8 +319,8 @@ class ControllerUser extends CI_Controller {
 		if($this->session->userdata('user_id') == '' || $this->session->userdata('user_id') == 0){
 	      header('Location:'. base_url().'login');
 	    }
-	    $filter = " and  divisionname	 in ('Bronze', 'Gold', 'Noonan', 'Purple', 'Silver', 'Spackler', 'Webb')";
-	    $data['divisionlist']           = $this->model_user->getAllDivisions($filter);
+	    //$filter = " and  divisionname	 in ('Bronze', 'Gold', 'Noonan', 'Purple', 'Silver', 'Spackler', 'Webb')";
+	    $data['divisionlist']           = $this->model_user->getAllDivisions($filter='');
 	    $data['Leaderboards']			= $this->model_user->GetLeaderboardDetails();
 	    $data['RecentDivisionResults'] 	= $this->model_user->GetLeagueScheduleDetails();
 		$this->load->view('user/Leaderboard', $data);
@@ -343,8 +343,10 @@ class ControllerUser extends CI_Controller {
 			$WhereCondition = ' AND Division in ( '.$divisionID.')';
 		}
 		$data['RecentDivisionResults'] 	= $this->model_user->GetLeagueScheduleDetails($WhereCondition );
-		echo $result = $this->GetRecentDivisionResultGrid($data['RecentDivisionResults'] , $isAjax = '1');
-		
+		$data['Leaderboards']           =  $this->model_user->GetLeaderboardDetails($WhereCondition);
+		$data_array['Leaderboards']     = $this->LeaderboardGrid($data['Leaderboards'] );
+		$data_array['RecentDivisionResults'] = $result = $this->GetRecentDivisionResultGrid($data['RecentDivisionResults'] , $isAjax = '1');
+		echo json_encode($data_array, TRUE);
 	}
 
 
@@ -376,7 +378,7 @@ class ControllerUser extends CI_Controller {
 		    }
 		    if($RecordNo == 0)
 		    {
-		    	?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php 
+		    	?>0<?php 
 		    }
 		$output = ob_get_clean();  
 
@@ -502,6 +504,40 @@ class ControllerUser extends CI_Controller {
         <option value="<?=$State['id'] ?>"><?php echo $State['name']; ?></option>
         <?php 
         }
+	}
+
+	public function LeaderboardGrid($Leaderboards)
+	{
+		ob_start();
+			$RecordNo = 0;
+	      	foreach($Leaderboards as $Leaderboard)
+	      	{
+	        $RecordNo++;
+	      	?>
+	      	  <tr>
+	          <th scope="row"><?=$RecordNo ?></th>
+	          <td><?=$Leaderboard['rosterid'] ?></td>
+	          <td><?=$Leaderboard['playername'] ?></td>
+	          <td><?=$Leaderboard['divisionname'] ?></td>
+	          <td><?=$Leaderboard['avgpoints'] ?></td>
+	          <td><?=$Leaderboard['wins'] ?></td>
+	          <td><?=$Leaderboard['losses'] ?></td>
+	          <td><?=$Leaderboard['gamesplayed'] ?></td>
+	          <td><?=$Leaderboard['points'] ?></td>
+	          <td><?=$Leaderboard['avgscore'] ?></td>
+	          <td><?=$Leaderboard['opponentavgscore'] ?></td>
+	          <td><?=$Leaderboard['gamesremaining'] ?></td>
+	          <td><?=$Leaderboard['potentialpoints'] ?></td>
+	        </tr>
+	      	<?php
+	      	}
+	      	if($RecordNo == 0)
+		    {
+		    	 ?> 0 <?php
+		    	/*?><tr> <td class='text-center' colspan='15'>No Record Found!</td></tr><?php */
+		    }
+	    $output = ob_get_clean();  
+		return $output;
 	}
 
 	

@@ -74,7 +74,8 @@
                       </thead>
                       <tbody>
                           <?php
-                          $RecordNo = 0;
+                          echo $controllObj->LeaderboardGrid($Leaderboards);
+                          /*$RecordNo = 0;
                           foreach($Leaderboards as $Leaderboard)
                           {
                             $RecordNo++;
@@ -94,7 +95,7 @@
                               <td><?=$Leaderboard['potentialpoints'] ?></td>
                             </tr>
                           <?php
-                          }
+                          }*/
                           ?>
                       </tbody>
                     </table>
@@ -112,7 +113,7 @@
                     <h3>Recent Division Results</h3>
                   </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                 <div class="col-md-12">
                   <b>Filters: </b>
                   <?php
@@ -128,7 +129,7 @@
                   <?php 
                   } ?>
                 </div>
-              </div>
+              </div> -->
                 <div class="row table-responsive gy-4 DivisionDataTableBorder" >
                   
                     <table id="TableDataDivision" class="table mb-0 table-striped table-responsive table-bordered">
@@ -220,12 +221,12 @@
       // pls don't forget to change to your domain :)
       injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
       
-      function GetDevisionResult(obj)
+      function GetDevisionResult(obj='')
       {
         
         BaseUrl = '<?=$this->config->base_url()?>';
         //console.log(BaseUrl+'ControlerUser/GetDivisionRecentResultAjax');
-        divisionID = $(obj).attr("divisionID");
+       // divisionID = $(obj).attr("divisionID");
         var checkedVals = $('.devision_chk_box:checkbox:checked').map(function() {
               return this.value;
           }).get();
@@ -238,15 +239,65 @@
             divisionID : divisionID
           },
           success:function(response){
+            
             if($.trim(response) !='')
             {
+              res = JSON.parse(response);
+              Leaderboards        = $.trim(res['Leaderboards']);
+              RecentDivisionResults = $.trim(res['RecentDivisionResults']);
+              
+
+              /*$("#TableDataDivision > tbody").html("");
+              $("#TableDataDivision > tbody").append(RecentDivisionResults);
+              $('#TableDataDivision').DataTable();*/
+
               $("#TableDataDivision > tbody").html("");
-              $("#TableDataDivision > tbody").append(response);
+              $('#TableDataDivision').DataTable().clear().destroy();;
+              
+              if(RecentDivisionResults != '0')
+              $("#TableDataDivision > tbody").append(RecentDivisionResults);
+             
               $('#TableDataDivision').DataTable();
+              $("#TableDataDivision select").trigger('change');
+            
+
+
+
+             /* $("#TableData > tbody").html("");
+              $("#TableData > tbody").append(Leaderboards);
+              $('#TableData').DataTable();*/
+
+              $('#TableData').DataTable().clear().destroy();
+              $("#TableData > tbody").html("");
+             
+              
+              if(Leaderboards != '0')
+              $("#TableData > tbody").html(Leaderboards);
+             
+              $('#TableData').DataTable();
+              $("#TableData select").trigger('change');
+
+             
             }
           }
         });
         
+      }
+
+      function CheckAllDivision(obj)
+      { 
+        if($('#chk_division_0').is(':checked'))
+        {
+          $('.devision_chk_box').prop('checked', true);
+        } 
+        else
+        {
+          $('.devision_chk_box').prop('checked', false);
+        }
+        $('.devision_chk_box').trigger('change');
+        // divisionID = $(obj).(":checked");
+        GetDevisionResult(obj='', isall=1);
+         
       }
     </script>
     <script type="text/javascript" src="<?=$this->config->base_url()?>asset/js/DataTables/datatables.min.js"></script>

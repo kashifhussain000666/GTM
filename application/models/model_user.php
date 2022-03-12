@@ -170,7 +170,7 @@ class model_user extends CI_Model {
 		return $result;
     }
 
-    public function GetLeaderboardDetails()
+    public function GetLeaderboardDetails($filter='')
 	{
 		$WhereCondition = "";
 		$query  = $this->db->query(" 	
@@ -193,10 +193,13 @@ class model_user extends CI_Model {
 									gamesremaining, 
 									points + (gamesremaining * 3) AS potentialpoints 
 									FROM GTMTheLeague.Leaderboard
+									where 1=1 
+									$filter
 									ORDER BY points DESC
 									");
 		
-		$result = $query->result_array();			
+		$result = $query->result_array();	
+		//echo $this->db->last_query();		
 		return $result;
 	}
 	public function GetLeagueScheduleDetails($WhereCondition = "")
@@ -211,8 +214,8 @@ class model_user extends CI_Model {
 									    FROM divisiondetails dd
 									    WHERE dd.id = cseventscheduleview.Division
 									) as divisionname,
-									 playeridhome as playeridhome, 
-									 playeridaway as playeridaway, 
+									-- playeridhome as playeridhome, 
+									-- playeridaway as playeridaway, 
 									home, 
 									away, 
 									course, 

@@ -48,14 +48,14 @@
           <div id="pieChart" style="width:18%;display: inline-block;"></div>
         </div>
         <div class="row">
-          <div class="col-md-3">
+         <!--  <div class="col-md-3">
             <section class=" pt-2 ">
               <div class="row table-responsive">
                   <div class="col-md-12"><hr>
                   </div>
               </div>
                <div class="row">
-                <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
                         <div class="form-check  ">
@@ -69,7 +69,7 @@
                 </div>
               </div><br><br>
               <div class="row ">
-                <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
                         <div class="form-check  ">
@@ -97,7 +97,7 @@
                 </div>
               </div><br><br>
                <div class="row">
-                <div class="col-md-12"><!-- <h3 class="form-check">Filters</h3> -->
+                <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
                         <div class="form-check  ">
@@ -125,8 +125,8 @@
                 </div>
               </div>
             </section>
-          </div>
-          <div class="col-md-9">
+          </div> -->
+          <div class="col-md-12 p-5">
             <section class=" pt-2 ">
                 <div class="row table-responsive">
                   <div class="col-md-12"><hr>
