@@ -214,8 +214,8 @@ class model_user extends CI_Model {
 									    FROM divisiondetails dd
 									    WHERE dd.id = cseventscheduleview.Division
 									) as divisionname,
-									-- playeridhome as playeridhome, 
-									-- playeridaway as playeridaway, 
+									playeridhome as playeridhome, 
+									playeridaway as playeridaway, 
 									home, 
 									away, 
 									course, 
