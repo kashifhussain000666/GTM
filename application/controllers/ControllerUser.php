@@ -402,7 +402,7 @@ class ControllerUser extends CI_Controller {
 		           <td><?=$Data['course'] ?></td>
 		          <td><?=$Data['frontgtpar'] ?></td>
 		          <td><?=$Data['backgtpar'] ?></td>
-		          <td><?=$Data['GSP'] ?></td>
+		          <td><?=number_format($Data['GSP']) ?></td>
 		          <td><?=$Data['holeouts']?></td>
 		        </tr>
 		      <?php
@@ -454,16 +454,30 @@ class ControllerUser extends CI_Controller {
 		$eventID       = $this->input->post('eventID');
 		$user_name     = $this->input->post('user_name');
 
-
+		$CourceAverageFilter = '';
+		$CourceComparisonFilter = '';
 		$filter = '';
 		if($division_list !='')
-		$filter = " AND Divisionid in ( ".$division_list.")";
+		{
+			$filter = " AND Divisionid in ( ".$division_list.")";
+			$CourceAverageFilter .= " AND Divisionid in ( ".$division_list.")";
+			$CourceComparisonFilter .= " AND Divisionid in ( ".$division_list.")";
+		}
 
 		if($eventID !='')
-		$filter .= " AND eventdetailsid in ( ".$eventID.")";
+		{
+			$filter .= " AND eventdetailsid in ( ".$eventID.")";
+			$CourceAverageFilter .= " AND eventdetailsid in ( ".$eventID.")";
+			$CourceComparisonFilter .= " AND eventdetailsid in ( ".$eventID.")";
+		}
 
 		if(trim($user_name) !='')
-		$filter .= " AND name like '%".$user_name."%' ";
+		{
+			$filter .= " AND name like '%".$user_name."%' ";
+			$CourceAverageFilter .= " AND name like '%".$user_name."%' ";
+			$CourceComparisonFilter .= " AND name like '%".$user_name."%' ";
+		}
+
 
 		$Get5BestMatches	= $this->model_user->Get5BestMatches($filter);
 	    $Get5BestMatchesAverage =  $this->model_user->Get5BestMatchesAverage($filter);
@@ -471,6 +485,10 @@ class ControllerUser extends CI_Controller {
 	    $data['Get5BestMatchesGrid'] = $this->Get5BestMatchesGrid($Get5BestMatches , $isAjax='0');
 	    $data['Get5BestMatchesAverageGrid'] =$this->Get5BestMatchesAverageGrid($Get5BestMatchesAverage, $isAjax='0');
 		
+
+		$data['ChartData_CourceAverage'] = $this->model_user->getChartData_CourceAverage($CourceAverageFilter);
+	    $data['ChartData_CourceComparison'] = $this->model_user->getChartData_CourceComparison($CourceComparisonFilter);
+
 		echo json_encode($data, TRUE);
 	}
 

@@ -245,7 +245,7 @@
 
         <script>
         // Bar Chart start here
-        var ChartData_CourceComparison = <?=json_encode($ChartData_CourceComparison)?>;
+       /* var ChartData_CourceComparison = <?=json_encode($ChartData_CourceComparison)?>;
         var xArray = [];
         var yArrayBest = [];
         var yArrayWorst = [];
@@ -285,10 +285,10 @@
             color: '#fff'
           }
         };
-        Plotly.newPlot("barChart", data, layout,config);
+        Plotly.newPlot("barChart", data, layout,config);*/
 
         // Pie chart Start Here
-        var xArray = ["TP", "VP", "PC", "DV", "RB","CS","CH","HM","JF","TG","RH","DC","AR","ER"];
+        /*var xArray = ["TP", "VP", "PC", "DV", "RB","CS","CH","HM","JF","TG","RH","DC","AR","ER"];
         var yArray = [55, 49, 44, -2, 15,55, 49, 44, -1, 15,55, 49, 44, -2];
         var data = [{
           labels: xArray,
@@ -303,10 +303,10 @@
             color: '#fff'
           }
         };
-        Plotly.newPlot("pieChart", data, layout,config);
+        Plotly.newPlot("pieChart", data, layout,config);*/
 
         // Scatter Chart
-        var ChartData_CourceAverage = <?=json_encode($ChartData_CourceAverage)?>;
+       /* var ChartData_CourceAverage = <?=json_encode($ChartData_CourceAverage)?>;
         data = [];
         for(let i = 0;i<ChartData_CourceAverage.length; i++ ){
           let x = {
@@ -330,7 +330,7 @@
             color: '#fff'
           }
         };
-        Plotly.newPlot("scatterChart", data, layout,config);
+        Plotly.newPlot("scatterChart", data, layout,config);*/
         </script>
      
         
@@ -346,11 +346,122 @@
     <script>
        $(document).ready( function () {
           $('#TableDataBestMatches').DataTable();
-      } );
-
-       $(document).ready( function () {
           $('#TableDataBestMatchesAverage').DataTable();
+          
+          ChartData_CourceAverage = <?=json_encode($ChartData_CourceAverage)?>;
+          Chart_CourceAverage(ChartData_CourceAverage);
+
+          Chart_CourseSelection();
+
+          ChartData_CourceComparison = <?=json_encode($ChartData_CourceComparison)?>;
+          Chart_CourseComparison(ChartData_CourceComparison);
+      
+         
       } );
+      
+
+      function Chart_CourceAverage(chart_data)
+      {
+       
+        //var ChartData_CourceAverage = <?=json_encode($ChartData_CourceAverage)?>;
+        data = [];
+        for(let i = 0;i<chart_data.length; i++ ){
+          let x = {
+            x: [chart_data[i]['avg_frontgtpar']],
+            y: [chart_data[i]['avg_backgtpar']],
+            name: chart_data[i]['course'],
+            text: chart_data[i]['course'],
+            mode:"markers",
+            type:"scatter",
+            marker: { size: 14 }
+          };
+          data.push(x);
+        }
+        const config = {
+          displayModeBar: false, // this is the line that hides the bar.
+        };
+        var layout = {
+          xaxis: {range: [0, 3], title: "Front 9 GT Par"},
+          yaxis: {range: [0, 6], title: "Back 9 GT Par"},
+          title: "Course Averages",
+          plot_bgcolor:"#22252a",
+          paper_bgcolor:"#22252a",
+          font: {
+            color: '#fff'
+          }
+        };
+        Plotly.newPlot("scatterChart", data, layout,config);
+      }
+
+
+      function Chart_CourseSelection()
+      {
+        var xArray = ["TP", "VP", "PC", "DV", "RB","CS","CH","HM","JF","TG","RH","DC","AR","ER"];
+        var yArray = [55, 49, 44, -2, 15,55, 49, 44, -1, 15,55, 49, 44, -2];
+        var data = [{
+          labels: xArray,
+          values: yArray,
+          type: "pie"
+        }];
+        const config = {
+          displayModeBar: false, // this is the line that hides the bar.
+        };
+        var layout = {
+          title:"Course Selection",
+          plot_bgcolor:"#22252a",
+          paper_bgcolor:"#22252a",
+          font: {
+            color: '#fff'
+          }
+        };
+        Plotly.newPlot("pieChart", data, layout,config);
+      }
+
+      function Chart_CourseComparison(chart_data)
+      {
+        // Bar Chart start here
+        //var ChartData_CourceComparison = <?=json_encode($ChartData_CourceComparison)?>;
+        var xArray = [];
+        var yArrayBest = [];
+        var yArrayWorst = [];
+        for( let i = 0; i < chart_data.length; i++ ){
+          xArray.push( chart_data[i]['course'] );
+          yArrayBest.push( chart_data[i]['maxscore'] );
+          yArrayWorst.push( chart_data[i]['minscore'] );
+        }
+        var data = [
+          {
+            x: xArray,
+            y: yArrayWorst,
+            type:"bar",
+            name: "Worst Score",
+            marker: {
+              color: 'white'
+            }
+          }
+          ,{
+            x: xArray,
+            y: yArrayBest,
+            type: "bar",
+            name: "Best Score",
+            marker: {
+              color: 'yellow'
+            }
+          }
+        ];
+        const config = {
+          displayModeBar: false, // this is the line that hides the bar.
+        };
+        var layout = {
+          title:"Course Comparison",
+          plot_bgcolor:"#22252a",
+          paper_bgcolor:"#22252a",
+          font: {
+            color: '#fff'
+          }
+        };
+        Plotly.newPlot("barChart", data, layout,config);
+      }
        
       // ------------------------------------------------------- //
       //   Inject SVG Sprite - 
@@ -405,7 +516,15 @@
             res = JSON.parse(response);
             Get5BestMatchesGrid        = $.trim(res['Get5BestMatchesGrid']);
             Get5BestMatchesAverageGrid = $.trim(res['Get5BestMatchesAverageGrid']);
+            ChartData_CourceAverage    = res['ChartData_CourceAverage'];
+            ChartData_CourceComparison = res['ChartData_CourceComparison'];
+            //d = ChartData_CourceAverage[0]['avg_backgtpar'];
+
+            Chart_CourceAverage(ChartData_CourceAverage);
+            Chart_CourseComparison(ChartData_CourceComparison);
             
+
+
             if($.trim(Get5BestMatchesGrid) !='')
             {
 

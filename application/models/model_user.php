@@ -211,8 +211,8 @@ class model_user extends CI_Model {
 									    FROM divisiondetails dd
 									    WHERE dd.id = cseventscheduleview.Division
 									) as divisionname,
-									playeridhome as playeridhome, 
-									playeridaway as playeridaway, 
+									 playeridhome as playeridhome, 
+									 playeridaway as playeridaway, 
 									home, 
 									away, 
 									course, 
@@ -261,6 +261,7 @@ class model_user extends CI_Model {
 					frontgtpar, 
 					backgtpar, 
 					gtparscore,
+					-- AVG(frontgsp + backgsp) as 18gtpar
 					(frontgsp + backgsp) AS GSP, 
 					(frontholeouts + backholeouts) AS holeouts 
 					from stats WHERE 1=1 
@@ -276,7 +277,7 @@ class model_user extends CI_Model {
 	{
 		$query = "
 					SELECT eventname, 
-					 AVG(gtparscore),
+					AVG(gtparscore),
 					AVG(frontgsp + backgsp) as 18gtpar, 
 					AVG(frontholeouts + backholeouts)  as 18gsp,
 					AVG(backgtpar) as backgtpar,
@@ -290,7 +291,7 @@ class model_user extends CI_Model {
 		 $result = $this->db->query($query)->result_array();			
 		return $result;
 	}
-	public function getChartData_CourceAverage()
+	public function getChartData_CourceAverage($filter='')
 	{
 		$query  = $this->db->query(" 	
 									SELECT divisionid
@@ -302,13 +303,14 @@ class model_user extends CI_Model {
 										,AVG(backgtpar) avg_backgtpar
 									from stats 
 									WHERE gtparscore IS NOT NULL 
+									$filter
 									GROUP BY course;
 									");
 		
 		$result = $query->result_array();			
 		return $result;
 	}
-	public function getChartData_CourceComparison()
+	public function getChartData_CourceComparison($filter='')
 	{
 		$query  = $this->db->query(" 	
 									SELECT playerid
@@ -320,6 +322,7 @@ class model_user extends CI_Model {
 										,std(gtparscore) as standardev
 									from stats 
 									WHERE gtparscore IS NOT NULL 
+									$filter
 									GROUP BY course;
 									");
 		
